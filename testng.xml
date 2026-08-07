@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="OrangeHealth Automation Suite" verbose="1">
+
+    <listeners>
+        <listener class-name="com.orangehealth.reports.ExtentTestListener"/>
+    </listeners>
+
+    <test name="Regression">
+        <classes>
+            <class name="com.orangehealth.runners.TestRunner"/>
+        </classes>
+    </test>
+
+</suite>

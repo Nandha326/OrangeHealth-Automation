@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="3" passed="3" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-08-07T12:21:27 IST" name="OrangeHealth Automation Suite" finished-at="2026-08-07T12:22:57 IST" duration-ms="90388">
+    <groups>
+      <group name="cucumber">
+        <method signature="AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.orangehealth.runners.TestRunner@557caf28]" name="runScenario" class="io.cucumber.testng.AbstractTestNGCucumberTests"/>
+      </group> <!-- cucumber -->
+    </groups>
+    <test started-at="2026-08-07T12:21:27 IST" name="Regression" finished-at="2026-08-07T12:22:57 IST" duration-ms="90388">
+      <class name="com.orangehealth.runners.TestRunner">
+        <test-method is-config="true" signature="beforeSuite()[pri:0, instance:com.orangehealth.runners.TestRunner@557caf28]" started-at="2026-08-07T12:21:27 IST" name="beforeSuite" finished-at="2026-08-07T12:21:27 IST" duration-ms="23" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeSuite -->
+        <test-method is-config="true" signature="setUpClass(org.testng.ITestContext)[pri:0, instance:com.orangehealth.runners.TestRunner@557caf28]" started-at="2026-08-07T12:21:27 IST" name="setUpClass" finished-at="2026-08-07T12:21:28 IST" duration-ms="989" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@35841d6]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpClass -->
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.orangehealth.runners.TestRunner@557caf28]" started-at="2026-08-07T12:21:28 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2026-08-07T12:21:52 IST" duration-ms="23868" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Verify user can book a Full Body Checkup package"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["Book a Health Checkup Package"]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.orangehealth.runners.TestRunner@557caf28]" started-at="2026-08-07T12:21:52 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2026-08-07T12:22:38 IST" duration-ms="45687" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Verify user can search and proceed with a diagnostic test"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["Search and Book Diagnostic Test from Home Page"]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.orangehealth.runners.TestRunner@557caf28]" started-at="2026-08-07T12:22:38 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2026-08-07T12:22:56 IST" duration-ms="18488" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Verify user can book a Lab Test package"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["Book a Lab Test Package"]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method is-config="true" signature="tearDownClass()[pri:0, instance:com.orangehealth.runners.TestRunner@557caf28]" started-at="2026-08-07T12:22:56 IST" name="tearDownClass" finished-at="2026-08-07T12:22:57 IST" duration-ms="1286" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownClass -->
+        <test-method is-config="true" signature="afterSuite()[pri:0, instance:com.orangehealth.runners.TestRunner@557caf28]" started-at="2026-08-07T12:22:58 IST" name="afterSuite" finished-at="2026-08-07T12:22:58 IST" duration-ms="32" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterSuite -->
+      </class> <!-- com.orangehealth.runners.TestRunner -->
+    </test> <!-- Regression -->
+  </suite> <!-- OrangeHealth Automation Suite -->
+</testng-results>

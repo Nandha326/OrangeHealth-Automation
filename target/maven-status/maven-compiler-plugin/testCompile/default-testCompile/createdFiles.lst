@@ -1,0 +1,5 @@
+com\orangehealth\stepdefinitions\HomePageSteps.class
+com\orangehealth\hooks\Hooks.class
+com\orangehealth\stepdefinitions\TestsSteps.class
+com\orangehealth\stepdefinitions\HealthCheckupSteps.class
+com\orangehealth\runners\TestRunner.class

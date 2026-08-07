@@ -1,0 +1,890 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Automation Execution Report</title>
+<link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@b00a2d0486596e73dd7326beacf352c639623a0e/commons/img/logo.png">
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@b00a2d0486596e73dd7326beacf352c639623a0e/commons/img/logo.png">
+<link href="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@ce8b10435bcbae260c334c0d0c6b61d2c19b6168/spark/css/spark-style.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@7cc78ce/spark/js/jsontree.js"></script>
+<style type="text/css">/* ============================================================
+OrangeHealth Automation — Modern Glassmorphism Dark Theme
+ExtentReports v5 | custom-spark-theme.css
+============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+/* ---------- CSS Variables ---------- */
+:root {
+--bg-base: #0b0f19;
+--bg-card: #151c2c;
+--bg-nav: #1f293d;
+--bg-hover: #243044;
+--bg-input: #1a2236;
+--border: #2a3a55;
+--border-subtle: #1e2d45;
+--text-primary: #e2e8f0;
+--text-secondary:#94a3b8;
+--text-muted: #64748b;
+--text-heading: #f1f5f9;
+--pass: #10b981;
+--pass-bg: rgba(16,185,129,0.12);
+--pass-border: rgba(16,185,129,0.30);
+--fail: #ef4444;
+--fail-bg: rgba(239,68,68,0.12);
+--fail-border: rgba(239,68,68,0.30);
+--skip: #f59e0b;
+--skip-bg: rgba(245,158,11,0.12);
+--skip-border: rgba(245,158,11,0.30);
+--info: #3b82f6;
+--info-bg: rgba(59,130,246,0.12);
+--info-border: rgba(59,130,246,0.30);
+--warn: #f97316;
+--warn-bg: rgba(249,115,22,0.12);
+--warn-border: rgba(249,115,22,0.30);
+--accent: #6366f1;
+--accent-glow: rgba(99,102,241,0.20);
+--radius-sm: 6px;
+--radius-md: 8px;
+--radius-lg: 12px;
+--shadow-card: 0 4px 24px rgba(0,0,0,0.40);
+--shadow-hover: 0 8px 32px rgba(0,0,0,0.55);
+--transition: all 0.20s cubic-bezier(0.4,0,0.2,1);
+}
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body {
+font-family: 'Plus Jakarta Sans', system-ui, sans-serif !important;
+background-color: var(--bg-base) !important;
+color: var(--text-primary) !important;
+font-size: 14px;
+line-height: 1.6;
+-webkit-font-smoothing: antialiased;
+}
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+/* ---------- Navigation / Sidebar ---------- */
+#nav-left, .nav-left, nav.nav-left {
+background: var(--bg-nav) !important;
+border-right: 1px solid var(--border-subtle) !important;
+box-shadow: 4px 0 20px rgba(0,0,0,0.30) !important;
+}
+.nav-left .nav-item a, .nav-left li a, #nav-left li a {
+color: var(--text-secondary) !important;
+border-radius: var(--radius-md) !important;
+margin: 2px 8px !important;
+padding: 10px 14px !important;
+transition: var(--transition) !important;
+font-weight: 500 !important;
+}
+.nav-left .nav-item a:hover, .nav-left li a:hover, #nav-left li a:hover {
+background: var(--bg-hover) !important;
+color: var(--text-heading) !important;
+transform: translateX(3px);
+}
+.nav-left .nav-item.active a, .nav-left li.active a, #nav-left li.active a {
+background: var(--accent-glow) !important;
+color: var(--accent) !important;
+border-left: 3px solid var(--accent) !important;
+}
+/* ---------- Top Bar ---------- */
+nav.nav-top, .nav-top {
+background: var(--bg-card) !important;
+border-bottom: 1px solid var(--border-subtle) !important;
+box-shadow: 0 2px 12px rgba(0,0,0,0.25) !important;
+}
+/* ---------- Main Content ---------- */
+.main-content, #main-content, .container-fluid {
+background: var(--bg-base) !important;
+}
+/* ---------- Cards ---------- */
+.card, .report-summary-child, .test-content, .test-detail {
+background: var(--bg-card) !important;
+border: 1px solid var(--border-subtle) !important;
+border-radius: var(--radius-lg) !important;
+box-shadow: var(--shadow-card) !important;
+transition: var(--transition) !important;
+}
+.card:hover {
+box-shadow: var(--shadow-hover) !important;
+border-color: var(--border) !important;
+transform: translateY(-1px);
+}
+.card .card-content, .card-panel { background: transparent !important; }
+/* ---------- Status Pills ---------- */
+.badge, .label, span.badge {
+border-radius: 99px !important;
+font-size: 11px !important;
+font-weight: 600 !important;
+letter-spacing: 0.04em !important;
+padding: 3px 10px !important;
+text-transform: uppercase !important;
+}
+.badge.pass, span[class*="pass"] {
+background: var(--pass-bg) !important;
+color: var(--pass) !important;
+border: 1px solid var(--pass-border) !important;
+box-shadow: 0 0 8px rgba(16,185,129,0.15) !important;
+}
+.badge.fail, span[class*="fail"] {
+background: var(--fail-bg) !important;
+color: var(--fail) !important;
+border: 1px solid var(--fail-border) !important;
+box-shadow: 0 0 8px rgba(239,68,68,0.15) !important;
+}
+.badge.skip, span[class*="skip"] {
+background: var(--skip-bg) !important;
+color: var(--skip) !important;
+border: 1px solid var(--skip-border) !important;
+}
+.badge.info, span[class*="info"] {
+background: var(--info-bg) !important;
+color: var(--info) !important;
+border: 1px solid var(--info-border) !important;
+}
+.badge.warn, span[class*="warn"] {
+background: var(--warn-bg) !important;
+color: var(--warn) !important;
+border: 1px solid var(--warn-border) !important;
+}
+/* ---------- Test List Items ---------- */
+.test-list-item, .test-item, li.test-item {
+background: var(--bg-card) !important;
+border: 1px solid var(--border-subtle) !important;
+border-radius: var(--radius-md) !important;
+margin-bottom: 4px !important;
+transition: var(--transition) !important;
+cursor: pointer;
+}
+.test-list-item:hover, .test-item:hover {
+background: var(--bg-hover) !important;
+border-color: var(--border) !important;
+transform: translateX(3px);
+box-shadow: var(--shadow-hover) !important;
+}
+.test-list-item.pass, li.test-item.pass { border-left: 3px solid var(--pass) !important; }
+.test-list-item.fail, li.test-item.fail { border-left: 3px solid var(--fail) !important; }
+.test-list-item.skip, li.test-item.skip { border-left: 3px solid var(--skip) !important; }
+/* ---------- Search Bar ---------- */
+.search-input, input[type="search"], .input-field input {
+background: var(--bg-input) !important;
+border: 1px solid var(--border) !important;
+border-radius: var(--radius-md) !important;
+color: var(--text-primary) !important;
+padding: 8px 14px !important;
+transition: var(--transition) !important;
+font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+.search-input:focus, input[type="search"]:focus, .input-field input:focus {
+border-color: var(--accent) !important;
+box-shadow: 0 0 0 3px var(--accent-glow) !important;
+outline: none !important;
+}
+/* ---------- Tables ---------- */
+table { border-collapse: separate !important; border-spacing: 0 !important; border-radius: var(--radius-md) !important; overflow: hidden !important; }
+thead tr th {
+background: var(--bg-nav) !important;
+color: var(--text-secondary) !important;
+font-size: 11px !important;
+font-weight: 600 !important;
+letter-spacing: 0.06em !important;
+text-transform: uppercase !important;
+padding: 10px 14px !important;
+border-bottom: 1px solid var(--border) !important;
+}
+tbody tr td {
+background: var(--bg-card) !important;
+color: var(--text-primary) !important;
+border-bottom: 1px solid var(--border-subtle) !important;
+padding: 10px 14px !important;
+transition: var(--transition) !important;
+}
+tbody tr:hover td { background: var(--bg-hover) !important; }
+/* ---------- Log / Step Rows ---------- */
+.log-row, .step-detail, .test-step {
+background: var(--bg-card) !important;
+border-radius: var(--radius-sm) !important;
+border-left: 3px solid var(--border) !important;
+margin: 3px 0 !important;
+padding: 8px 12px !important;
+font-size: 13px !important;
+transition: var(--transition) !important;
+}
+.log-row.pass { border-left-color: var(--pass) !important; }
+.log-row.fail { border-left-color: var(--fail) !important; }
+.log-row.skip { border-left-color: var(--skip) !important; }
+.log-row.info { border-left-color: var(--info) !important; }
+.log-row.warn { border-left-color: var(--warn) !important; }
+/* ---------- Exception / Stack Trace ---------- */
+.exception-detail, pre.exception, .stack-trace, code.exception {
+font-family: 'JetBrains Mono', monospace !important;
+font-size: 12px !important;
+background: #0d1117 !important;
+color: #f85149 !important;
+border: 1px solid rgba(248,81,73,0.25) !important;
+border-radius: var(--radius-md) !important;
+padding: 14px !important;
+line-height: 1.7 !important;
+overflow-x: auto !important;
+white-space: pre-wrap !important;
+word-break: break-word !important;
+}
+/* ---------- Screenshots ---------- */
+.screenshot-container img, .media-container img, img.screenshot {
+border-radius: var(--radius-md) !important;
+border: 1px solid var(--border) !important;
+max-width: 280px !important;
+cursor: zoom-in !important;
+transition: var(--transition) !important;
+box-shadow: var(--shadow-card) !important;
+}
+.screenshot-container img:hover, img.screenshot:hover {
+transform: scale(1.03) !important;
+box-shadow: var(--shadow-hover) !important;
+border-color: var(--accent) !important;
+}
+/* ---------- Typography ---------- */
+h1, h2, h3, h4, h5, h6 {
+font-family: 'Plus Jakarta Sans', sans-serif !important;
+color: var(--text-heading) !important;
+font-weight: 600 !important;
+}
+code, pre, .mono { font-family: 'JetBrains Mono', monospace !important; }
+a { color: var(--accent) !important; text-decoration: none !important; }
+a:hover { color: #818cf8 !important; text-decoration: underline !important; }
+.divider, hr { border-color: var(--border-subtle) !important; }
+/* ---------- Keyboard Shortcut Hint Bar ---------- */
+#oh-shortcut-bar {
+position: fixed;
+bottom: 16px; right: 16px;
+background: var(--bg-nav);
+border: 1px solid var(--border);
+border-radius: var(--radius-lg);
+padding: 8px 14px;
+font-size: 11px;
+color: var(--text-muted);
+z-index: 9000;
+display: flex;
+gap: 12px;
+box-shadow: var(--shadow-card);
+font-family: 'Plus Jakarta Sans', sans-serif;
+}
+#oh-shortcut-bar kbd {
+background: var(--bg-hover);
+border: 1px solid var(--border);
+border-radius: 4px;
+padding: 1px 6px;
+font-family: 'JetBrains Mono', monospace;
+font-size: 11px;
+color: var(--text-primary);
+}
+/* ---------- Lightbox ---------- */
+#oh-lightbox {
+display: none;
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.88);
+z-index: 99999;
+align-items: center;
+justify-content: center;
+backdrop-filter: blur(6px);
+cursor: zoom-out;
+}
+#oh-lightbox.active { display: flex; }
+#oh-lightbox img {
+max-width: 92vw;
+max-height: 90vh;
+border-radius: var(--radius-lg);
+border: 1px solid var(--border);
+box-shadow: 0 24px 80px rgba(0,0,0,0.80);
+cursor: default;
+animation: oh-zoom-in 0.20s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes oh-zoom-in {
+from { opacity: 0; transform: scale(0.88); }
+to { opacity: 1; transform: scale(1); }
+}
+#oh-lightbox-close {
+position: absolute;
+top: 16px; right: 20px;
+color: var(--text-secondary);
+font-size: 20px;
+cursor: pointer;
+background: var(--bg-card);
+border: 1px solid var(--border);
+border-radius: 50%;
+width: 36px; height: 36px;
+display: flex; align-items: center; justify-content: center;
+transition: var(--transition);
+}
+#oh-lightbox-close:hover { color: var(--text-heading); background: var(--bg-hover); }
+/* ---------- Stack Trace Toggle ---------- */
+.oh-trace-toggle {
+display: inline-flex;
+align-items: center;
+gap: 6px;
+margin-top: 6px;
+padding: 4px 12px;
+background: var(--bg-hover);
+border: 1px solid var(--border);
+border-radius: var(--radius-sm);
+color: var(--text-secondary);
+font-size: 11px;
+font-family: 'Plus Jakarta Sans', sans-serif;
+font-weight: 500;
+cursor: pointer;
+transition: var(--transition);
+}
+.oh-trace-toggle:hover {
+background: var(--accent-glow);
+border-color: var(--accent);
+color: var(--accent);
+}
+.oh-trace-collapsed { display: none !important; }
+</style></head><body class="spa -report dark">
+  <div class="app">
+    <div class="layout">
+<div class="header navbar">
+<div class="vheader">
+<div class="nav-logo">
+<a href="#">
+<div class="logo" style="background-image: url('https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@b00a2d0486596e73dd7326beacf352c639623a0e/commons/img/logo.png')"></div>
+</a>
+</div>
+<ul class="nav-left">
+<li class="search-box">
+<a class="search-toggle" href="#">
+<i class="search-icon fa fa-search"></i>
+<i class="search-icon-close fa fa-close"></i>
+</a>
+</li>
+<li class="search-input"><input id="search-tests" class="form-control" type="text" placeholder="Search..."></li>
+</ul>
+<ul class="nav-right">
+<li class="m-r-10">
+<a href="#"><span class="badge badge-primary">Orange Health Automation Report</span></a>
+</li>
+<li class="m-r-10">
+<a href="#"><span class="badge badge-primary">Aug 6, 2026 02:58:26 pm</span></a>
+</li>
+</ul>
+</div>
+</div><div class="side-nav">
+<div class="side-nav-inner">
+<ul class="side-nav-menu">
+<li class="nav-item dropdown" onclick="toggleView('test-view')">
+<a id="nav-test" class="dropdown-toggle" href="#">
+<span class="ico"><i class="fa fa-list"></i></span>
+</a>
+</li>
+<li class="nav-item dropdown" onclick="toggleView('dashboard-view')">
+<a id="nav-dashboard" class="dropdown-toggle" href="#">
+<span class="ico"><i class="fa fa-bar-chart"></i></span>
+</a>
+</li>
+</ul>
+</div>
+</div>      <div class="vcontainer">
+        <div class="main-content">
+<div class="test-wrapper row view test-view">
+  <div class="test-list">
+    <div class="test-list-tools">
+<ul class="tools pull-left">
+<li><a href="#"><span class="font-size-14">Tests</span></a></li>
+</ul>
+<ul class="tools text-right">
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-exclamation-circle"></i></a>
+<ul id="status-toggle" class="dropdown-menu dropdown-md p-v-0">
+<a class="dropdown-item" status="pass" href="#"><span>Pass</span><span class="status success"></span></a>
+<div class="dropdown-divider"></div>
+<a status="clear" class="dropdown-item" href="#"><span>Clear</span><span class="pull-right"><i class="fa fa-close"></i></span></a>
+</ul>
+</li>
+</ul>
+</div>    <div class="test-list-wrapper scrollable">
+      <ul class="test-list-item">
+        <li class="test-item"  status="pass" test-id="1"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">TestRunner :: runScenario</p>
+            <p class="text-sm">
+              <span>2:58:27 pm</span> / <span>00:00:00:000</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">TestRunner :: runScenario</h5>
+<span class='badge badge-success'>08.06.2026 2:58:27 pm</span>
+<span class='badge badge-danger'>08.06.2026 2:58:27 pm</span>
+<span class='badge badge-default'>00:00:00:000</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=1</span>
+<span title='Skip to the next failed step' class='badge badge-danger pointer float-right ne ml-1'><i class="fa fa-fast-forward"></i></span>
+<span title='Collapse all nodes' class='badge badge-default pointer float-right ct ml-1'><i class="fa fa-compress"></i></span>
+<span title='Expand all nodes' class='badge badge-default pointer float-right et'><i class="fa fa-expand"></i></span>
+</div>
+</div>
+</div>          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="5"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">Verify user can book a Lab Test package</p>
+            <p class="text-sm">
+              <span>2:58:30 pm</span> / <span>00:00:13:894</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">Verify user can book a Lab Test package</h5>
+<span class='badge badge-success'>08.06.2026 2:58:30 pm</span>
+<span class='badge badge-danger'>08.06.2026 2:58:44 pm</span>
+<span class='badge badge-default'>00:00:13:894</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=5</span>
+<span title='Skip to the next failed step' class='badge badge-danger pointer float-right ne ml-1'><i class="fa fa-fast-forward"></i></span>
+<span title='Collapse all nodes' class='badge badge-default pointer float-right ct ml-1'><i class="fa fa-compress"></i></span>
+<span title='Expand all nodes' class='badge badge-default pointer float-right et'><i class="fa fa-expand"></i></span>
+</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>2:58:44 pm</td>
+        <td>
+          Scenario passed: Verify user can book a Lab Test package
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+<div class="test-content scrollable">
+<div class="test-content-tools">
+<ul><li><a class="back-to-test" href="#"><i class="fa fa-arrow-left"></i></a></li></ul>
+</div>
+<div class="test-content-detail"><div class="detail-body"></div></div>
+</div></div>
+<div class="container-fluid p-4 view dashboard-view">
+<div class="row">
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0">Started</p>
+<h3>Aug 6, 2026 02:58:26 pm</h3>
+</div></div>
+</div>
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0">Ended</p>
+<h3>Aug 6, 2026 02:58:45 pm</h3>
+</div></div>
+</div>
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0 text-pass">Tests Passed</p>
+<h3>2</h3>
+</div></div>
+</div>
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0 text-fail">Tests Failed</p>
+<h3>0</h3>
+</div></div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-6">
+<div class="card">
+<div class="card-header">
+<h6 class="card-title">Tests</h6>
+</div>
+<div class="card-body">
+<div class="">
+<canvas id='parent-analysis' width='115' height='90'></canvas>
+</div>
+</div>
+<div class="card-footer">
+<div><small data-tooltip='100%'>
+<b>2</b> tests passed
+</small>
+</div>
+<div>
+<small data-tooltip='0%'><b>0</b> tests failed,
+<b>0</b> skipped, <b data-tooltip='0%'>0</b> others
+</small>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="card">
+<div class="card-header">
+<h6 class="card-title">Log events</h6>
+</div>
+<div class="card-body">
+<div class="">
+<canvas id='events-analysis' width='115' height='90'></canvas>
+</div>
+</div>
+<div class="card-footer">
+<div><small data-tooltip='100%'><b>1</b> events passed</small></div>
+<div>
+<small data-tooltip='0%'><b>0</b> events failed,
+<b data-tooltip='%'>0</b> others
+</small>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><div class="col-md-12">
+<div class="card"><div class="card-header"><p>Timeline</p></div>
+<div class="card-body pt-0"><div>
+<canvas id="timeline" height="120"></canvas>
+</div></div>
+</div>
+</div></div>
+<script>
+var timeline = {
+"TestRunner :: runScenario":0,"Verify user can book a Lab Test package":13.894
+};
+</script>
+<div class="row">
+<div class="col-lg-6 col-md-12 sysenv-container">
+<div class="card">
+<div class="card-header"><p>System/Environment</p></div>
+<div class="card-body pb-0 pt-0"><table class="table table-sm table-bordered">
+<thead><tr class="bg-gray"><th>Name</th><th>Value</th></tr></thead>
+<tbody>
+<tr>
+<td>Framework</td>
+<td>Orange Health Automation Framework</td>
+</tr>
+<tr>
+<td>Version</td>
+<td>1.0.0</td>
+</tr>
+<tr>
+<td>Organization</td>
+<td>Orange Health</td>
+</tr>
+<tr>
+<td>Author</td>
+<td>QA Automation Team</td>
+</tr>
+<tr>
+<td>Operating System</td>
+<td>Windows 11</td>
+</tr>
+<tr>
+<td>Java Version</td>
+<td>21.0.11</td>
+</tr>
+<tr>
+<td>User</td>
+<td>nandhakumar</td>
+</tr>
+<tr>
+<td>Browser</td>
+<td>chrome</td>
+</tr>
+<tr>
+<td>Environment</td>
+<td>PROD</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+</div>
+<script>
+var statusGroup = {
+parentCount: 5,
+passParent: 2,
+failParent: 0,
+warningParent: 0,
+skipParent: 0,
+childCount: 5,
+passChild: 0,
+failChild: 0,
+warningChild: 0,
+skipChild: 0,
+infoChild: 0,
+grandChildCount: 5,
+passGrandChild: 0,
+failGrandChild: 0,
+warningGrandChild: 0,
+skipGrandChild: 0,
+infoGrandChild: 0,
+eventsCount: 5,
+passEvents: 1,
+failEvents: 0,
+warningEvents: 0,
+skipEvents: 0,
+infoEvents: 0
+};
+</script>        </div>
+      </div>
+    </div>
+  </div>
+<script src="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@ce8b10435bcbae260c334c0d0c6b61d2c19b6168/spark/js/spark-script.js"></script>
+<script type="text/javascript">/* ============================================================
+   OrangeHealth Automation — Custom JS Enhancements
+   ExtentReports v5 | custom-spark-script.js
+   ============================================================ */
+
+(function () {
+  'use strict';
+
+  /* ── Wait for DOM ready ─────────────────────────────────── */
+  function ready(fn) {
+    if (document.readyState !== 'loading') { fn(); }
+    else { document.addEventListener('DOMContentLoaded', fn); }
+  }
+
+  /* ── Retry helper (Extent renders async via Angular) ────── */
+  function retryUntil(fn, maxMs, intervalMs) {
+    maxMs      = maxMs      || 8000;
+    intervalMs = intervalMs || 300;
+    var elapsed = 0;
+    var timer = setInterval(function () {
+      fn();
+      elapsed += intervalMs;
+      if (elapsed >= maxMs) { clearInterval(timer); }
+    }, intervalMs);
+  }
+
+  /* ================================================================
+     1. LIGHTBOX — full-screen screenshot overlay
+     ================================================================ */
+  function initLightbox() {
+    if (document.getElementById('oh-lightbox')) { return; }
+
+    var overlay = document.createElement('div');
+    overlay.id  = 'oh-lightbox';
+
+    var closeBtn = document.createElement('span');
+    closeBtn.id  = 'oh-lightbox-close';
+    closeBtn.innerHTML = '&#x2715;';
+    closeBtn.title = 'Close (Esc)';
+
+    var img = document.createElement('img');
+    img.id  = 'oh-lightbox-img';
+    img.alt = 'Screenshot';
+
+    overlay.appendChild(closeBtn);
+    overlay.appendChild(img);
+    document.body.appendChild(overlay);
+
+    function open(src) {
+      img.src = src;
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      img.src = '';
+    }
+
+    closeBtn.addEventListener('click', function (e) { e.stopPropagation(); close(); });
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) { close(); } });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('active')) { close(); }
+    });
+
+    /* Delegate — intercept screenshot clicks anywhere in the report */
+    document.addEventListener('click', function (e) {
+      var el = e.target;
+      if (
+        el.tagName === 'IMG' &&
+        (el.closest('.screenshot-container') ||
+         el.closest('.media-container') ||
+         el.classList.contains('screenshot') ||
+         el.src.match(/\.(png|jpg|jpeg|gif|webp)/i))
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        open(el.src);
+      }
+    }, true);
+  }
+
+  /* ================================================================
+     2. EXCEPTION TOGGLE — collapse long stack traces
+     ================================================================ */
+  var TRACE_LINE_THRESHOLD = 8;
+
+  function collapseTraces() {
+    var blocks = document.querySelectorAll(
+      '.exception-detail, pre.exception, .stack-trace, code.exception, pre'
+    );
+
+    blocks.forEach(function (block) {
+      if (block.dataset.ohTraceInit) { return; }
+      block.dataset.ohTraceInit = '1';
+
+      var lines = block.innerText.split('\n');
+      if (lines.length <= TRACE_LINE_THRESHOLD) { return; }
+
+      var preview  = lines.slice(0, TRACE_LINE_THRESHOLD).join('\n');
+      var overflow = lines.slice(TRACE_LINE_THRESHOLD).join('\n');
+
+      var previewNode   = document.createTextNode(preview);
+      var overflowSpan  = document.createElement('span');
+      overflowSpan.className = 'oh-trace-collapsed';
+      overflowSpan.textContent = '\n' + overflow;
+
+      var toggle = document.createElement('button');
+      toggle.className = 'oh-trace-toggle';
+      toggle.innerHTML = '<span class="oh-toggle-icon">&#9660;</span> Expand Stack Trace ('
+        + (lines.length - TRACE_LINE_THRESHOLD) + ' more lines)';
+
+      var collapsed = true;
+
+      toggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        collapsed = !collapsed;
+        if (collapsed) {
+          overflowSpan.classList.add('oh-trace-collapsed');
+          toggle.innerHTML = '<span class="oh-toggle-icon">&#9660;</span> Expand Stack Trace ('
+            + (lines.length - TRACE_LINE_THRESHOLD) + ' more lines)';
+        } else {
+          overflowSpan.classList.remove('oh-trace-collapsed');
+          toggle.innerHTML = '<span class="oh-toggle-icon">&#9650;</span> Collapse Stack Trace';
+        }
+      });
+
+      block.textContent = '';
+      block.appendChild(previewNode);
+      block.appendChild(overflowSpan);
+      block.parentNode.insertBefore(toggle, block.nextSibling);
+    });
+  }
+
+  /* ================================================================
+     3. KEYBOARD SHORTCUTS
+        f → filter failed tests
+        p → filter passed tests
+        d → dashboard view
+        / → focus search
+     ================================================================ */
+  function initKeyboardShortcuts() {
+    document.addEventListener('keydown', function (e) {
+      /* Ignore when typing in an input */
+      var tag = document.activeElement && document.activeElement.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') { return; }
+
+      switch (e.key.toLowerCase()) {
+
+        case 'f':
+          clickNavItem('fail');
+          break;
+
+        case 'p':
+          clickNavItem('pass');
+          break;
+
+        case 'd':
+          clickNavItem('dashboard');
+          break;
+
+        case '/':
+          e.preventDefault();
+          var searchInput = document.querySelector(
+            'input[type="search"], .search-input, #searchInput, input[placeholder*="earch"]'
+          );
+          if (searchInput) { searchInput.focus(); }
+          break;
+      }
+    });
+  }
+
+  function clickNavItem(keyword) {
+    var links = document.querySelectorAll('#nav-left a, .nav-left a, nav a');
+    for (var i = 0; i < links.length; i++) {
+      var text = links[i].textContent.trim().toLowerCase();
+      if (text.indexOf(keyword) !== -1) {
+        links[i].click();
+        return;
+      }
+    }
+    /* Fallback: try filter buttons / tabs */
+    var btns = document.querySelectorAll('[data-filter], .filter-btn, .tab-btn');
+    for (var j = 0; j < btns.length; j++) {
+      var bText = (btns[j].dataset.filter || btns[j].textContent).toLowerCase();
+      if (bText.indexOf(keyword) !== -1) { btns[j].click(); return; }
+    }
+  }
+
+  /* ================================================================
+     4. SHORTCUT HINT BAR
+     ================================================================ */
+  function initShortcutBar() {
+    if (document.getElementById('oh-shortcut-bar')) { return; }
+
+    var bar = document.createElement('div');
+    bar.id  = 'oh-shortcut-bar';
+    bar.innerHTML =
+      '<kbd>f</kbd> Failed &nbsp;' +
+      '<kbd>p</kbd> Passed &nbsp;' +
+      '<kbd>d</kbd> Dashboard &nbsp;' +
+      '<kbd>/</kbd> Search &nbsp;' +
+      '<kbd>Esc</kbd> Close';
+
+    document.body.appendChild(bar);
+
+    /* Auto-hide after 6 s */
+    setTimeout(function () {
+      bar.style.transition = 'opacity 0.6s';
+      bar.style.opacity    = '0';
+      setTimeout(function () { bar.style.display = 'none'; }, 700);
+    }, 6000);
+  }
+
+  /* ================================================================
+     5. BOOT
+     ================================================================ */
+  ready(function () {
+    initLightbox();
+    initKeyboardShortcuts();
+    initShortcutBar();
+
+    /* Extent renders content asynchronously — poll for new nodes */
+    retryUntil(collapseTraces, 10000, 400);
+
+    /* Also observe DOM mutations for dynamically loaded test details */
+    if (window.MutationObserver) {
+      var observer = new MutationObserver(function () {
+        collapseTraces();
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+  });
+
+})();
+</script></body>
+</html>

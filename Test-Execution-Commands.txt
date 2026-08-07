@@ -1,0 +1,66 @@
+===========================================================
+ OrangeHealth Automation - Test Execution Commands
+===========================================================
+
+-----------------------------------------------------------
+ Full Suite
+-----------------------------------------------------------
+
+mvn clean test
+
+
+-----------------------------------------------------------
+ By Suite-Level Tags
+-----------------------------------------------------------
+
+# All Smoke tests (all 3 features)
+mvn clean test "-Dcucumber.filter.tags=@Smoke"
+
+# All Regression tests
+mvn clean test "-Dcucumber.filter.tags=@Regression"
+
+
+-----------------------------------------------------------
+ Individual Feature Pages
+-----------------------------------------------------------
+
+# HomePage
+mvn clean test "-Dcucumber.filter.tags=@HomePage"
+
+# HealthCheckup
+mvn clean test "-Dcucumber.filter.tags=@HealthCheckup"
+
+# Tests Page
+mvn clean test "-Dcucumber.filter.tags=@Tests"
+
+
+-----------------------------------------------------------
+ Scenario-Level Tags
+-----------------------------------------------------------
+
+# Search & Booking scenario only
+mvn clean test "-Dcucumber.filter.tags=@Search and @Booking"
+
+
+-----------------------------------------------------------
+ Useful Combinations
+-----------------------------------------------------------
+
+# Headless run (full suite)
+mvn clean test "-Dcucumber.filter.tags=@Smoke" "-Dheadless=true"
+
+# Specific feature + headless
+mvn clean test "-Dcucumber.filter.tags=@HomePage" "-Dheadless=true"
+
+# Exclude a tag
+mvn clean test "-Dcucumber.filter.tags=@Regression and not @HomePage"
+
+
+-----------------------------------------------------------
+ Notes
+-----------------------------------------------------------
+
+- -Dheadless=true     : Runs browser in headless mode
+- -Dbrowser=chrome    : Override browser (default: chrome)
+- System properties (-D) override config.properties values
+===========================================================

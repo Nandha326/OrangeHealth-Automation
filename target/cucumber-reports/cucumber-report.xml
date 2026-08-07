@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Cucumber" time="88.222" tests="3" skipped="0" failures="0" errors="0">
+<testcase classname="Book a Health Checkup Package" name="Verify user can book a Full Body Checkup package" time="23.741">
+<system-out><![CDATA[
+Given the user launches the Orange Health application.......................passed
+When the user clicks the Checkups navigation menu...........................passed
+Then the Health Checkups page should be displayed...........................passed
+When the user scrolls to the Full Body Checkups section.....................passed
+And the user clicks the View Details button of the first Full Body Checkup..passed
+Then the Full Body Checkup Basic page should be displayed...................passed
+When the user double-clicks the Add to Cart button..........................passed
+Then the Cart Drawer should be displayed....................................passed
+And the selected Full Body Checkup should be displayed in the cart..........passed
+When the user clicks the Proceed button.....................................passed
+Then the Sign in to Continue page should be displayed.......................passed
+]]></system-out>
+</testcase>
+<testcase classname="Search and Book Diagnostic Test from Home Page" name="Verify user can search and proceed with a diagnostic test" time="45.636">
+<system-out><![CDATA[
+Given the user launches the Orange Health application.......................passed
+Then the Orange Health Home Page should be displayed........................passed
+When the user clicks the "My Location" menu.................................passed
+Then the Location Selection dialog should be displayed......................passed
+When the user selects the city from Excel...................................passed
+Then the selected city should be displayed on the Home Page.................passed
+When the user clicks the Search Bar.........................................passed
+Then the Search Overlay should be displayed.................................passed
+And the following segmented controls should be available....................passed
+When the user navigates through all segmented controls......................passed
+Then each segmented control should be clickable.............................passed
+When the user selects the "All" segmented control...........................passed
+And the user clicks the Search Input Field..................................passed
+And the user searches for the diagnostic test from Excel....................passed
+Then the relevant search results should be displayed........................passed
+When the user adds the first search result to the cart......................passed
+Then the cart badge count should increase...................................passed
+When the user clicks the Proceed button.....................................passed
+Then the Login page should be displayed.....................................passed
+]]></system-out>
+</testcase>
+<testcase classname="Book a Lab Test Package" name="Verify user can book a Lab Test package" time="18.463">
+<system-out><![CDATA[
+Given the user launches the Orange Health application.......................passed
+When the user clicks the Tests navigation menu..............................passed
+Then the Tests page should be displayed.....................................passed
+When the user scrolls to the Tests section..................................passed
+And the user clicks the View Details button of the first Test...............passed
+Then the Tests detail page should be displayed..............................passed
+When the user double-clicks the Add to Cart button..........................passed
+Then the Cart Drawer should be displayed....................................passed
+And the selected Test should be displayed in the cart.......................passed
+When the user clicks the Proceed button.....................................passed
+Then the Sign in to Continue page should be displayed.......................passed
+]]></system-out>
+</testcase>
+</testsuite>
