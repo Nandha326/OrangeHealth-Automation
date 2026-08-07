@@ -1,4 +1,4 @@
-# OrangeHealth Automation Framework (Scaffold)
+# OrangeHealth Automation Framework
 
 This is the initial enterprise scaffold for a Hybrid BDD Automation Framework.
 
