@@ -6,7 +6,7 @@ param(
     [string]$tags = "@Smoke"
 )
 
-$env:JAVA_HOME = "C:\Program Files\Java\jdk-21.0.11"
+$env:JAVA_HOME = "C:\Users\nandh\.jdk\jdk-25.0.2"
 if ($env:Path -notlike "*apache-maven*") {
     $env:Path += ";C:\Users\nandhakumar\maven\apache-maven-3.9.6\bin"
 }

@@ -1,4 +1,5 @@
 {
+    "java.jdt.ls.java.home": "C:\\Users\\nandh\\.jdk\\jdk-25.0.2",
     "java.configuration.updateBuildConfiguration": "interactive",
     "java.compile.nullAnalysis.mode": "automatic"
 }

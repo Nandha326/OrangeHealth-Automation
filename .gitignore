@@ -1,0 +1,25 @@
+# Maven build output
+/target/
+
+# Generated test reports and screenshots
+/reports/
+/screenshots/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# IDE and editor files
+.idea/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
