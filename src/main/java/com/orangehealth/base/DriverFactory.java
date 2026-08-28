@@ -64,6 +64,10 @@ public final class DriverFactory {
 
     }
 
+    public static boolean isDriverInitialized() {
+        return DRIVER.get() != null;
+    }
+
     // Returns the WebDriver for the current thread; throws if not initialised
     public static WebDriver getDriver() {
 

@@ -39,7 +39,7 @@ public class ConfigReader {
 
     // Reads baseUrl from config.json via JsonConfigReader
     public String getBaseUrl() {
-        return new JsonConfigReader().getBaseUrl();
+        return JsonConfigReader.getInstance().getBaseUrl();
     }
 
     // Returns the browser name; defaults to chrome if not set

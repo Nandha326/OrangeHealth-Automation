@@ -1,5 +1,5 @@
-# Keep repository text files LF on every platform.
-* text=auto eol=lf
+# Keep text files CRLF in this Windows-based working tree.
+* text=auto eol=crlf
 
 # Preserve binary assets exactly.
 *.png binary

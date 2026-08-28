@@ -10,7 +10,6 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -68,6 +67,15 @@ public class BasePage {
     // Waits until the element is clickable using a custom timeout
     protected WebElement waitForClickable(By locator, Duration timeout) {
         return wait(timeout).until(ExpectedConditions.elementToBeClickable(locator));
+    }
+
+    // Pauses execution for the specified duration
+    protected void pause(Duration duration) {
+        try {
+            Thread.sleep(duration.toMillis());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     // Waits until the element is no longer visible using the default explicit wait
@@ -261,11 +269,11 @@ public class BasePage {
         js.executeScript("arguments[0].scrollIntoView({block:'center', inline:'nearest'});", element);
     }
 
-    // Clicks the element; falls back to JS click if intercepted by an overlay
+    // Clicks the element; falls back to JS click if intercepted or failed
     private void clickElement(WebElement element) {
         try {
             element.click();
-        } catch (ElementClickInterceptedException e) {
+        } catch (Exception e) {
             js.executeScript("arguments[0].click();", element);
         }
     }

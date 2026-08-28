@@ -35,23 +35,11 @@ public class HealthCheckupSteps {
         healthCheckupPage().clickFirstViewDetails();
     }
 
-    @Then("the Full Body Checkup Basic page should be displayed")
-    public void theFullBodyCheckupBasicPageShouldBeDisplayed() {
+    @Then("the Full Body Checkup detail page should be displayed")
+    public void theFullBodyCheckupDetailPageShouldBeDisplayed() {
         assertTrue(
                 healthCheckupPage().isFullBodyCheckupDisplayed(),
-                "Full Body Checkup Basic page is not displayed.");
-    }
-
-    @When("the user double-clicks the Add to Cart button")
-    public void theUserDoubleClicksTheAddToCartButton() {
-        healthCheckupPage().addPackageToCart();
-    }
-
-    @Then("the Cart Drawer should be displayed")
-    public void theCartDrawerShouldBeDisplayed() {
-        assertTrue(
-                healthCheckupPage().isCartDrawerDisplayed(),
-                "Cart Drawer is not displayed.");
+                "Full Body Checkup detail page is not displayed.");
     }
 
     @And("the selected Full Body Checkup should be displayed in the cart")
@@ -59,13 +47,6 @@ public class HealthCheckupSteps {
         assertTrue(
                 healthCheckupPage().isSelectedPackageDisplayed(),
                 "Selected Full Body Checkup is not displayed in the cart.");
-    }
-
-    @Then("the Sign in to Continue page should be displayed")
-    public void theSignInToContinuePageShouldBeDisplayed() {
-        assertTrue(
-                healthCheckupPage().isLoginPageDisplayed(),
-                "Sign in to Continue page is not displayed.");
     }
 
     private HealthCheckupPage healthCheckupPage() {

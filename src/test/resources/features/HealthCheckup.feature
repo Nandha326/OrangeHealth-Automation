@@ -17,9 +17,9 @@ Feature: Book a Health Checkup Package
 
     And the user clicks the View Details button of the first Full Body Checkup
 
-    Then the Full Body Checkup Basic page should be displayed
+    Then the Full Body Checkup detail page should be displayed
 
-    When the user double-clicks the Add to Cart button
+    When the user clicks the Add to Cart button
 
     Then the Cart Drawer should be displayed
 

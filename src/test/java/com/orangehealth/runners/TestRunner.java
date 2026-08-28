@@ -44,7 +44,7 @@ import io.cucumber.testng.CucumberOptions;
 
         publish = false,
 
-        tags = "${cucumber.filter.tags:@Smoke}"
+        tags = "@Smoke"
 
 )
 

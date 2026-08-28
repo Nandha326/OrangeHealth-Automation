@@ -188,12 +188,6 @@ public class HomePageSteps {
                 "Cart badge count did not increase.");
     }
 
-    // Clicks the Proceed button inside the cart/search modal
-    @When("the user clicks the Proceed button")
-    public void theUserClicksTheProceedButton() {
-        homePage().clickProceedButton();
-    }
-
     // Asserts that the Login/Sign-in page is displayed after clicking Proceed
     @Then("the Login page should be displayed")
     public void theLoginPageShouldBeDisplayed() {

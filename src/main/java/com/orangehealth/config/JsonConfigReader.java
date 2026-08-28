@@ -12,13 +12,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class JsonConfigReader {
 
-    // Classpath location of the JSON config file
     private static final String CONFIG_JSON = "testdata/config.json";
+    private static final JsonConfigReader INSTANCE = new JsonConfigReader();
 
-    // Holds all key-value pairs parsed from config.json
     private final Map<String, String> config;
 
-    public JsonConfigReader() {
+    public static JsonConfigReader getInstance() {
+        return INSTANCE;
+    }
+
+    private JsonConfigReader() {
         // Load and parse config.json from the classpath
         try (InputStream input = getClass().getClassLoader().getResourceAsStream(CONFIG_JSON)) {
             if (input == null) {

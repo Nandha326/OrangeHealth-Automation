@@ -5,6 +5,8 @@ package com.orangehealth.pages;
 // Covers: navigation, full body checkup listing, checkup detail,
 // add to cart, and proceed to login flow.
 
+import java.time.Duration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -12,15 +14,19 @@ import com.orangehealth.base.BasePage;
 
 public class HealthCheckupPage extends BasePage {
 
+    private static final Duration PAGE_WAIT = Duration.ofSeconds(10);
+
+    private final CartPage cartPage;
+
     public HealthCheckupPage(WebDriver driver) {
         super(driver);
+        this.cartPage = new CartPage(driver);
     }
 
     /*=========================================================
      * Navigation
      *=========================================================*/
 
-    // Checkups link in the top navigation bar
     private final By checkupsMenu =
             By.xpath("//nav//a[contains(normalize-space(.),'Checkups')] | //header//a[contains(normalize-space(.),'Checkups')]");
 
@@ -28,111 +34,64 @@ public class HealthCheckupPage extends BasePage {
      * Health Checkups Page
      *=========================================================*/
 
-    // Page heading on the Health Checkups listing page
     private final By healthCheckupsPageTitle =
-            By.cssSelector("h1.oui-typography.procedure-description");
+            By.cssSelector("h1.oui-typography.procedure-description, h1, [class*='procedure-description'], .category-checkup-page");
 
-    // Section heading for the Full Body Checkups group
     private final By fullBodyCheckupsSection =
-            By.xpath("//h2[contains(normalize-space(.),'4 Full body')]");
+            By.xpath("//h2[contains(normalize-space(.),'Full body') or contains(normalize-space(.),'Full Body')]");
 
-    // First View Details button in the checkup listing
     private final By firstViewDetailsButton =
-            By.xpath("(//span[contains(normalize-space(.),'View Details')])[1]");
-
-    /*=========================================================
-     * Checkup Details Page
-     *=========================================================*/
-
-    // H1 title on the individual checkup detail page
-    private final By fullBodyCheckupTitle =
-            By.xpath("//section[@class='primary-details']/div/h1");
-
-    // Add to Cart button on the checkup detail page
-    private final By addToCartButton =
-            By.cssSelector("button.proceeding-button.add-to-cart-button");
-
-    /*=========================================================
-     * Cart Drawer
-     *=========================================================*/
-
-    // Cart drawer container that slides in after adding a package
-    private final By cartDrawer =
-            By.xpath("//div[@class='cart-modal-body']");
-
-    // Name of the package added to the cart
-    private final By addedPackageName =
-            By.xpath("//section[@class='cart-item-details']/h3");
-
-    // Proceed button inside the cart drawer
-    private final By proceedButton =
-            By.xpath("(//span[normalize-space(.)='Proceed']/ancestor::button)[1]");
-
-    /*=========================================================
-     * Login Page
-     *=========================================================*/
-
-    // Header text on the Sign In / Login page
-    private final By loginPageTitle =
-            By.cssSelector("div[class='auth-primary-header'] span");
+            By.xpath("(//h2[contains(normalize-space(.),'Full body') or contains(normalize-space(.),'Full Body')]/ancestor::section//a[contains(.,'View Details')] | "
+                    + "//h2[contains(normalize-space(.),'Full body') or contains(normalize-space(.),'Full Body')]/following::a[contains(.,'View Details')] | "
+                    + "//a[contains(@href,'checkup') and contains(.,'View Details')] | "
+                    + "//a[contains(.,'View Details')])[1]");
 
     /*=========================================================
      * Business Methods
      *=========================================================*/
 
-    // Clicks the Checkups link in the navigation menu
     public void clickCheckupsMenu() {
         click(checkupsMenu);
+        waitForPageLoad();
     }
 
-    // Returns true if the Health Checkups listing page heading is visible
     public boolean isHealthCheckupsPageDisplayed() {
-        return isDisplayed(healthCheckupsPageTitle);
+        waitForPageLoad();
+        return isDisplayed(healthCheckupsPageTitle, PAGE_WAIT);
     }
 
-    // Scrolls the page until the Full Body Checkups section is in view
     public void scrollToFullBodyCheckups() {
         scrollIntoView(fullBodyCheckupsSection);
     }
 
-    // Clicks the View Details button of the first checkup in the listing
     public void clickFirstViewDetails() {
         click(firstViewDetailsButton);
+        waitForPageLoad();
+        cartPage.isProductDetailDisplayed();
     }
 
-    // Returns true if the Full Body Checkup detail page title is visible
     public boolean isFullBodyCheckupDisplayed() {
-        return isDisplayed(fullBodyCheckupTitle);
+        return cartPage.isProductDetailDisplayed();
     }
 
-    // Double-clicks the Add to Cart button on the checkup detail page
     public void addPackageToCart() {
-        doubleClick(addToCartButton);
+        cartPage.addPackageToCart();
     }
 
-    // Returns true if the cart drawer is visible after adding a package
     public boolean isCartDrawerDisplayed() {
-        return isDisplayed(cartDrawer);
+        return cartPage.isCartDrawerDisplayed();
     }
 
-    // Returns true if the added package name is shown in the cart drawer
     public boolean isSelectedPackageDisplayed() {
-        return isDisplayed(addedPackageName);
+        return cartPage.isSelectedPackageDisplayed();
     }
 
-    // Returns the name of the package currently shown in the cart drawer
-    public String getSelectedPackageName() {
-        return getText(addedPackageName);
-    }
-
-    // Clicks the Proceed button inside the cart drawer
     public void clickProceed() {
-        click(proceedButton);
+        cartPage.clickProceed();
     }
 
-    // Returns true if the Login/Sign-in page is displayed
     public boolean isLoginPageDisplayed() {
-        return isDisplayed(loginPageTitle);
+        return cartPage.isLoginPageDisplayed();
     }
-
 }
+

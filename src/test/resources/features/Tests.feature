@@ -19,7 +19,7 @@ Feature: Book a Lab Test Package
 
     Then the Tests detail page should be displayed
 
-    When the user double-clicks the Add to Cart button
+    When the user clicks the Add to Cart button
 
     Then the Cart Drawer should be displayed
 

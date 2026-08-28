@@ -203,7 +203,7 @@ public class ExtentTestListener implements ITestListener, ISuiteListener, IConfi
     private void captureScreenshot(ExtentTest node, String name) {
         try {
             if (!ConfigManager.getInstance().getConfigReader().isScreenshotOnFail()) return;
-            if (DriverFactory.getDriver() == null) return;
+            if (!DriverFactory.isDriverInitialized()) return;
             String path = ScreenshotManager.captureScreenshot(name);
             ReportAttachments.attachScreenshot("Failure Screenshot", path);
         } catch (Exception e) {
