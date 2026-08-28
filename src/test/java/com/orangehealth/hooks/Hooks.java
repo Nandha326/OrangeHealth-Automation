@@ -22,7 +22,25 @@ public class Hooks {
     @Before(order = 0)
     public void setUp(Scenario scenario) {
         DriverFactory.initDriver();
-        ExtentManager.createTest(scenario.getName());
+
+        String browser = DriverFactory.getCurrentBrowser();
+        String testName = ExtentManager.isCrossBrowserMode()
+                ? scenario.getName() + " [" + browser.toUpperCase() + "]"
+                : scenario.getName();
+
+        ExtentManager.createTest(testName);
+
+        if (ExtentManager.getTest() != null) {
+            ExtentManager.getTest().assignCategory(browser.toUpperCase());
+            ExtentManager.getTest().assignDevice(browser);
+
+            for (String tag : scenario.getSourceTagNames()) {
+                ExtentManager.getTest().assignCategory(tag.replace("@", ""));
+            }
+
+            ExtentManager.getTest().info("<b>Browser:</b> " + browser.toUpperCase()
+                    + " | <b>Scenario:</b> " + scenario.getName());
+        }
     }
 
     // Runs after each scenario: logs result, clears test data, and quits the driver

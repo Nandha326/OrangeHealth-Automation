@@ -36,6 +36,15 @@ public class ExtentTestListener implements ITestListener, ISuiteListener, IConfi
 
     @Override
     public void onStart(ISuite suite) {
+        if (suite != null) {
+            String suiteName = suite.getName();
+            String isCrossBrowserParam = suite.getParameter("crossBrowser");
+            if ((suiteName != null && suiteName.toLowerCase().contains("cross browser"))
+                    || "true".equalsIgnoreCase(isCrossBrowserParam)
+                    || "true".equalsIgnoreCase(System.getProperty("crossBrowser"))) {
+                ExtentManager.setCrossBrowserMode(true);
+            }
+        }
         ExtentManager.getExtentReports();
     }
 
@@ -100,9 +109,16 @@ public class ExtentTestListener implements ITestListener, ISuiteListener, IConfi
     @Override
     public void onTestStart(ITestResult result) {
         /* Cucumber scenarios are created in Hooks.@Before.
-           Only create here for plain TestNG tests. */
+           If not created by Hooks (e.g. dry-run or plain TestNG), create here with full context. */
         if (ExtentManager.getTest() == null) {
-            ExtentManager.createTest(getTestName(result));
+            String testName = getTestName(result);
+            ExtentManager.createTest(testName);
+
+            String browser = resolveBrowser(result);
+            if (browser != null && !browser.isBlank()) {
+                ExtentManager.getTest().assignCategory(browser.toUpperCase());
+                ExtentManager.getTest().assignDevice(browser);
+            }
         }
     }
 
@@ -112,6 +128,7 @@ public class ExtentTestListener implements ITestListener, ISuiteListener, IConfi
             ExtentManager.getTest().log(Status.PASS,
                     "&#10003; Passed: " + getTestName(result));
         }
+        ExtentManager.unload();
     }
 
     @Override
@@ -130,6 +147,7 @@ public class ExtentTestListener implements ITestListener, ISuiteListener, IConfi
         }
 
         captureScreenshot(ExtentManager.getTest(), result.getName());
+        ExtentManager.unload();
     }
 
     @Override
@@ -141,6 +159,7 @@ public class ExtentTestListener implements ITestListener, ISuiteListener, IConfi
         ExtentManager.getTest().log(Status.SKIP,
                 "&#9654; Skipped: " + getTestName(result)
                         + (cause != null ? " — " + cause.getMessage() : ""));
+        ExtentManager.unload();
     }
 
     @Override
@@ -182,8 +201,32 @@ public class ExtentTestListener implements ITestListener, ISuiteListener, IConfi
     }
 
     private String getTestName(ITestResult result) {
+        Object[] params = result.getParameters();
+        if (params != null && params.length > 0) {
+            for (Object param : params) {
+                if (param instanceof io.cucumber.testng.PickleWrapper) {
+                    String scenarioName = ((io.cucumber.testng.PickleWrapper) param).getPickle().getName();
+                    String browser = resolveBrowser(result);
+                    if (ExtentManager.isCrossBrowserMode() && browser != null && !browser.isBlank()) {
+                        return scenarioName + " [" + browser.toUpperCase() + "]";
+                    }
+                    return scenarioName;
+                }
+            }
+        }
         return result.getTestClass().getRealClass().getSimpleName()
                 + " :: " + result.getName();
+    }
+
+    private String resolveBrowser(ITestResult result) {
+        if (result != null && result.getTestContext() != null
+                && result.getTestContext().getCurrentXmlTest() != null) {
+            String browserParam = result.getTestContext().getCurrentXmlTest().getParameter("browser");
+            if (browserParam != null && !browserParam.isBlank()) {
+                return browserParam.trim().toLowerCase();
+            }
+        }
+        return DriverFactory.getCurrentBrowser();
     }
 
     private String stackTraceOf(Throwable t) {

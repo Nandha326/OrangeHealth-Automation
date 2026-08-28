@@ -50,33 +50,114 @@ public final class BrowserFactory {
 
     // Creates a ChromeDriver instance with default Chromium options
     private static WebDriver createChrome(boolean headless) {
-
         ChromeOptions options = new ChromeOptions();
         addChromiumDefaults(options, headless);
-        return new ChromeDriver(options);
-
+        try {
+            return new ChromeDriver(options);
+        } catch (Exception e) {
+            pauseBriefly();
+            return new ChromeDriver(options);
+        }
     }
 
-    // Creates an EdgeDriver instance with default Chromium options
+    // Creates an EdgeDriver instance with default Chromium options, with fallback if Microsoft driver CDN is unreachable
     private static WebDriver createEdge(boolean headless) {
-
         EdgeOptions options = new EdgeOptions();
         addChromiumDefaults(options, headless);
-        return new EdgeDriver(options);
+        try {
+            return new EdgeDriver(options);
+        } catch (Exception e) {
+            // If EdgeDriver fails (e.g. msedgedriver CDN unreachable/version mismatch), fallback to Chromium driver targeting Edge binary
+            try {
+                String edgeBinary = resolveEdgeBinary();
+                String driverPath = resolveChromeDriverPath();
+                if (edgeBinary != null) {
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    addChromiumDefaults(chromeOptions, headless);
+                    chromeOptions.setBinary(edgeBinary);
 
+                    if (driverPath != null) {
+                        org.openqa.selenium.chrome.ChromeDriverService service =
+                                new org.openqa.selenium.chrome.ChromeDriverService.Builder()
+                                        .usingDriverExecutable(new java.io.File(driverPath))
+                                        .build();
+                        return new ChromeDriver(service, chromeOptions);
+                    }
+                    return new ChromeDriver(chromeOptions);
+                }
+            } catch (Exception fallbackEx) {
+                System.err.println("[BrowserFactory] Edge fallback error: " + fallbackEx.getMessage());
+            }
+            throw new RuntimeException("Failed to initialize Microsoft Edge driver: " + e.getMessage(), e);
+        }
+    }
+
+    // Resolves cached chromedriver executable to bypass version lookup
+    private static String resolveChromeDriverPath() {
+        String userHome = System.getProperty("user.home");
+        java.io.File cacheDir = new java.io.File(userHome, ".cache/selenium/chromedriver");
+        if (cacheDir.exists() && cacheDir.isDirectory()) {
+            java.io.File[] matched = findFile(cacheDir, "chromedriver.exe");
+            if (matched != null && matched.length > 0) {
+                return matched[0].getAbsolutePath();
+            }
+        }
+        return null;
+    }
+
+    private static java.io.File[] findFile(java.io.File dir, String filename) {
+        java.util.List<java.io.File> results = new java.util.ArrayList<>();
+        java.io.File[] files = dir.listFiles();
+        if (files != null) {
+            for (java.io.File f : files) {
+                if (f.isDirectory()) {
+                    java.io.File[] sub = findFile(f, filename);
+                    if (sub != null) {
+                        results.addAll(java.util.Arrays.asList(sub));
+                    }
+                } else if (f.getName().equalsIgnoreCase(filename)) {
+                    results.add(f);
+                }
+            }
+        }
+        return results.toArray(new java.io.File[0]);
+    }
+
+    // Resolves installed Edge executable path on Windows
+    private static String resolveEdgeBinary() {
+        String[] paths = {
+            "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
+            System.getenv("LOCALAPPDATA") + "\\Microsoft\\Edge\\Application\\msedge.exe"
+        };
+        for (String path : paths) {
+            if (path != null && new java.io.File(path).exists()) {
+                return path;
+            }
+        }
+        return null;
     }
 
     // Creates a FirefoxDriver instance with optional headless mode
     private static WebDriver createFirefox(boolean headless) {
-
         FirefoxOptions options = new FirefoxOptions();
-
         if (headless) {
             options.addArguments("-headless");
         }
+        try {
+            return new FirefoxDriver(options);
+        } catch (Exception e) {
+            pauseBriefly();
+            return new FirefoxDriver(options);
+        }
+    }
 
-        return new FirefoxDriver(options);
-
+    private static void pauseBriefly() {
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException ignored) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     // Applies common Chromium browser arguments for stable test execution

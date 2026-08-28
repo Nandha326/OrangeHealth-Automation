@@ -57,10 +57,43 @@ mvn clean test "-Dcucumber.filter.tags=@Regression and not @HomePage"
 
 
 -----------------------------------------------------------
+ Cross-Browser Testing Suite (All Modules)
+-----------------------------------------------------------
+
+# Run Cross-Browser Suite (Option 1 - Profile Recommended):
+mvn clean test -Pcrossbrowser
+
+# Run Cross-Browser Suite (Option 2 - Quoted Property for PowerShell):
+mvn clean test "-DsuiteXmlFile=testng-crossbrowser.xml"
+
+# Run Cross-Browser Suite in Headless Mode:
+mvn clean test -Pcrossbrowser "-Dheadless=true"
+
+# Run Specific Tags across all browsers (e.g., @Smoke or @Regression):
+mvn clean test -Pcrossbrowser "-Dcucumber.filter.tags=@Smoke"
+mvn clean test -Pcrossbrowser "-Dcucumber.filter.tags=@HomePage"
+
+# PowerShell Helper Script:
+.\run-tests.ps1 -suiteXml "testng-crossbrowser.xml" -tags "@Smoke"
+
+
+-----------------------------------------------------------
+ Reports Generated
+-----------------------------------------------------------
+
+- Standard Suite Extent Report     : reports/ExtentReport_<timestamp>.html
+- Cross-Browser Suite Extent Report: reports/ExtentReport_CrossBrowser_<timestamp>.html
+- Cucumber HTML Report             : target/cucumber-reports/crossbrowser-report.html
+
+
+-----------------------------------------------------------
  Notes
 -----------------------------------------------------------
 
-- -Dheadless=true     : Runs browser in headless mode
-- -Dbrowser=chrome    : Override browser (default: chrome)
+- -Pcrossbrowser                        : Maven profile for cross-browser suite
+- "-DsuiteXmlFile=testng-crossbrowser.xml" : Executes cross-browser suite (quote for PowerShell)
+- -Dheadless=true                       : Runs browsers in headless mode
+- -Dbrowser=chrome|edge|firefox         : Override browser for single-run suite
 - System properties (-D) override config.properties values
 ===========================================================
+

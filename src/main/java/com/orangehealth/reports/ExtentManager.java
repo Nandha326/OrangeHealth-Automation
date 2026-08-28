@@ -27,11 +27,23 @@ public final class ExtentManager {
 
     private static final ThreadLocal<ExtentTest> extentTest = new ThreadLocal<>();
 
+    private static boolean crossBrowserMode = false;
+
     private static final String CSS_RESOURCE = "extent-theme/custom-spark-theme.css";
     private static final String JS_RESOURCE  = "extent-theme/custom-spark-script.js";
 
     private ExtentManager() {
         throw new IllegalStateException("Utility class");
+    }
+
+    /* ── Mode configuration ─────────────────────────────────────── */
+
+    public static synchronized void setCrossBrowserMode(boolean isCrossBrowser) {
+        crossBrowserMode = isCrossBrowser;
+    }
+
+    public static boolean isCrossBrowserMode() {
+        return crossBrowserMode;
     }
 
     /* ── Singleton accessor ─────────────────────────────────────── */
@@ -50,12 +62,21 @@ public final class ExtentManager {
 
         String timestamp  = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-        String reportPath = PathConstants.REPORT_PATH + "ExtentReport_" + timestamp + ".html";
+
+        String reportFilePrefix = crossBrowserMode ? "ExtentReport_CrossBrowser_" : "ExtentReport_";
+        String reportPath = PathConstants.REPORT_PATH + reportFilePrefix + timestamp + ".html";
 
         ExtentSparkReporter spark = new ExtentSparkReporter(reportPath);
 
-        spark.config().setDocumentTitle(ReportConstants.REPORT_TITLE);
-        spark.config().setReportName(ReportConstants.REPORT_NAME);
+        String docTitle = crossBrowserMode
+                ? "Cross-Browser Automation Execution Report"
+                : ReportConstants.REPORT_TITLE;
+        String repName = crossBrowserMode
+                ? "Orange Health Cross-Browser Test Suite"
+                : ReportConstants.REPORT_NAME;
+
+        spark.config().setDocumentTitle(docTitle);
+        spark.config().setReportName(repName);
         spark.config().setTheme(Theme.DARK);
         spark.config().setTimelineEnabled(true);
         spark.config().setEncoding("UTF-8");
@@ -88,10 +109,17 @@ public final class ExtentManager {
         extentReports.setSystemInfo("Operating System", System.getProperty("os.name"));
         extentReports.setSystemInfo("Java Version",     System.getProperty("java.version"));
         extentReports.setSystemInfo("User",             System.getProperty("user.name"));
-        extentReports.setSystemInfo("Browser",
-                System.getProperty("browser", "chrome"));
         extentReports.setSystemInfo("Environment",
                 System.getProperty("environment", "PROD"));
+
+        if (crossBrowserMode) {
+            extentReports.setSystemInfo("Execution Suite",   "Cross-Browser Automation Suite");
+            extentReports.setSystemInfo("Target Browsers",   "Chrome, Edge, Firefox");
+            extentReports.setSystemInfo("Modules Covered",   "HomePage, HealthCheckup, Tests");
+        } else {
+            extentReports.setSystemInfo("Browser",
+                    System.getProperty("browser", "chrome"));
+        }
     }
 
     /* ── Test lifecycle helpers ─────────────────────────────────── */

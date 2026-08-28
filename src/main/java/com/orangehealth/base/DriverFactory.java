@@ -19,7 +19,38 @@ public final class DriverFactory {
     private static final ThreadLocal<WebDriver> DRIVER =
             new ThreadLocal<>();
 
+    // InheritableThreadLocal allows child threads/parallel scenarios to inherit the target browser
+    private static final ThreadLocal<String> CURRENT_BROWSER =
+            new InheritableThreadLocal<>();
+
     private DriverFactory() {
+    }
+
+    // Sets the browser type for the current execution thread
+    public static void setBrowser(String browser) {
+        if (browser != null && !browser.isBlank()) {
+            CURRENT_BROWSER.set(browser.trim().toLowerCase());
+        }
+    }
+
+    // Gets the active browser for the current thread, falling back to System Property or ConfigReader
+    public static String getCurrentBrowser() {
+        String threadBrowser = CURRENT_BROWSER.get();
+        if (threadBrowser != null && !threadBrowser.isBlank()) {
+            return threadBrowser;
+        }
+
+        String sysBrowser = System.getProperty("browser");
+        if (sysBrowser != null && !sysBrowser.isBlank()) {
+            return sysBrowser.trim().toLowerCase();
+        }
+
+        return ConfigManager.getInstance().getConfigReader().getBrowser();
+    }
+
+    // Clears the thread browser context
+    public static void clearBrowser() {
+        CURRENT_BROWSER.remove();
     }
 
     // Initialises the WebDriver for the current thread if not already created
@@ -32,10 +63,12 @@ public final class DriverFactory {
             return;
         }
 
-        // Create browser instance based on config
+        String targetBrowser = getCurrentBrowser();
+
+        // Create browser instance based on target browser & headless config
         WebDriver driver =
                 BrowserFactory.createBrowser(
-                        config.getBrowser(),
+                        targetBrowser,
                         config.isHeadless());
 
         // Apply timeout settings from config
