@@ -13,6 +13,7 @@ import com.orangehealth.config.BrowserFactory;
 import com.orangehealth.config.ConfigManager;
 import com.orangehealth.config.ConfigReader;
 
+@SuppressWarnings("null")
 public final class DriverFactory {
 
     // ThreadLocal ensures each thread gets its own WebDriver instance
@@ -72,14 +73,18 @@ public final class DriverFactory {
                         config.isHeadless());
 
         // Apply timeout settings from config
-        driver.manage().timeouts()
-              .pageLoadTimeout(Duration.ofSeconds(config.getPageLoadTimeout()));
+        WebDriver finalDriver = driver;
+        Duration pageLoadTimeout = Duration.ofSeconds(config.getPageLoadTimeout());
+        finalDriver.manage().timeouts()
+              .pageLoadTimeout(pageLoadTimeout);
 
-        driver.manage().timeouts()
-              .implicitlyWait(Duration.ofSeconds(config.getImplicitWait()));
+        Duration implicitWait = Duration.ofSeconds(config.getImplicitWait());
+        finalDriver.manage().timeouts()
+              .implicitlyWait(implicitWait);
 
-        driver.manage().timeouts()
-              .scriptTimeout(Duration.ofSeconds(config.getScriptTimeout()));
+        Duration scriptTimeout = Duration.ofSeconds(config.getScriptTimeout());
+        finalDriver.manage().timeouts()
+              .scriptTimeout(scriptTimeout);
 
         // Set window size: fixed for headless, maximised for headed
         if (config.isHeadless()) {

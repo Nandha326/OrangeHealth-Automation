@@ -14,6 +14,7 @@ import net.datafaker.Faker;
  * Thread-safe:
  * Uses ThreadLocal<Faker> and ThreadLocalRandom.
  */
+@SuppressWarnings("null")
 public final class RandomDataGenerator {
 
     private static final ThreadLocal<Faker> FAKER =

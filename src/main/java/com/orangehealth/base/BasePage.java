@@ -37,34 +37,41 @@ public class BasePage {
     public BasePage(WebDriver driver) {
         this.driver = Objects.requireNonNull(driver, "WebDriver cannot be null.");
         // Initialise wait using explicit wait timeout from config
-        this.wait = new WebDriverWait(
+        @SuppressWarnings("null")
+        WebDriverWait waitInstance = new WebDriverWait(
                 driver,
                 Duration.ofSeconds(ConfigManager.getInstance().getConfigReader().getExplicitWait()));
+        this.wait = waitInstance;
         this.actions = new Actions(driver);
         this.js = (JavascriptExecutor) driver;
     }
 
     // Waits until the element is visible using the default explicit wait
+    @SuppressWarnings("null")
     protected WebElement waitForVisibility(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     // Waits until the element is visible using a custom timeout
+    @SuppressWarnings("null")
     protected WebElement waitForVisibility(By locator, Duration timeout) {
         return wait(timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     // Waits until the element is present in the DOM (not necessarily visible)
+    @SuppressWarnings("null")
     protected WebElement waitForPresence(By locator) {
         return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
     // Waits until the element is clickable using the default explicit wait
+    @SuppressWarnings("null")
     protected WebElement waitForClickable(By locator) {
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
     // Waits until the element is clickable using a custom timeout
+    @SuppressWarnings("null")
     protected WebElement waitForClickable(By locator, Duration timeout) {
         return wait(timeout).until(ExpectedConditions.elementToBeClickable(locator));
     }
@@ -79,16 +86,19 @@ public class BasePage {
     }
 
     // Waits until the element is no longer visible using the default explicit wait
+    @SuppressWarnings("null")
     protected boolean waitForInvisibility(By locator) {
         return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
 
     // Waits until the element is no longer visible using a custom timeout
+    @SuppressWarnings("null")
     protected boolean waitForInvisibility(By locator, Duration timeout) {
         return wait(timeout).until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
 
     // Returns the first visible element matching the locator
+    @SuppressWarnings("null")
     protected WebElement waitForFirstVisible(By locator) {
         return wait.until(currentDriver -> currentDriver.findElements(locator)
                 .stream()
@@ -153,36 +163,46 @@ public class BasePage {
     }
 
     // Returns the value of the specified DOM attribute
+    @SuppressWarnings("null")
     protected String getAttribute(By locator, String attribute) {
-        return retryOnStale(() -> waitForVisibility(locator).getDomAttribute(attribute));
+        return retryOnStale(() -> {
+            String attr = waitForVisibility(locator).getDomAttribute(attribute);
+            return attr != null ? attr : "";
+        });
     }
 
     // Selects a dropdown option by its visible text
+    @SuppressWarnings("null")
     protected void selectByVisibleText(By locator, String text) {
         new Select(waitForVisibility(locator)).selectByVisibleText(text);
     }
 
     // Selects a dropdown option by its value attribute
+    @SuppressWarnings("null")
     protected void selectByValue(By locator, String value) {
         new Select(waitForVisibility(locator)).selectByValue(value);
     }
 
     // Selects a dropdown option by its zero-based index
+    @SuppressWarnings("null")
     protected void selectByIndex(By locator, int index) {
         new Select(waitForVisibility(locator)).selectByIndex(index);
     }
 
     // Moves the mouse cursor over the element (hover)
+    @SuppressWarnings("null")
     protected void hover(By locator) {
         actions.moveToElement(waitForVisibility(locator)).perform();
     }
 
     // Performs a double-click on the element
+    @SuppressWarnings("null")
     protected void doubleClick(By locator) {
         actions.doubleClick(waitForVisibility(locator)).perform();
     }
 
     // Performs a right-click (context click) on the element
+    @SuppressWarnings("null")
     protected void rightClick(By locator) {
         actions.contextClick(waitForVisibility(locator)).perform();
     }
@@ -255,11 +275,13 @@ public class BasePage {
     }
 
     // Executes arbitrary JavaScript in the browser context
+    @SuppressWarnings("null")
     protected Object executeScript(String script, Object... arguments) {
         return js.executeScript(script, arguments);
     }
 
     // Creates a new WebDriverWait with the specified custom timeout
+    @SuppressWarnings("null")
     private WebDriverWait wait(Duration timeout) {
         return new WebDriverWait(driver, timeout);
     }

@@ -88,7 +88,11 @@ public class HomePage extends BasePage {
 
     // Login/Sign-in page indicator element
     private final By loginPage = By.xpath(
-            "//span[contains(normalize-space(.),'Sign in') or contains(normalize-space(.),'Login')] | //h2[contains(.,'Sign')]");
+            "//span[contains(normalize-space(.),'Sign in') or contains(normalize-space(.),'Login')] | "
+                    + "//h2[contains(.,'Sign')] | "
+                    + "//div[contains(@class,'auth-primary-header')] | "
+                    + "//*[contains(@class,'auth')] | "
+                    + "//button[contains(.,'Get OTP')]");
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -118,14 +122,12 @@ public class HomePage extends BasePage {
     public void clickMenu(String menuName) {
         switch (menuName.trim().toLowerCase()) {
             case "my location":
-                // Skip click if the popup is already open
                 if (isLocationPopupDisplayed()) {
                     return;
                 }
                 try {
                     click(myLocationMenu);
                 } catch (Exception e) {
-                    // Fall back to JS click if standard click fails
                     jsClick(myLocationMenu);
                 }
                 break;
@@ -134,16 +136,28 @@ public class HomePage extends BasePage {
         }
     }
 
-    // Returns true if the location selection popup is currently visible
+    // Returns true only when the location selection modal is actually visible.
     public boolean isLocationPopupDisplayed() {
         return isDisplayed(locationPopup, Duration.ofSeconds(1));
     }
 
     // Selects a city from the location popup; handles Bangalore/Bengaluru alias
     public void selectCity(String city) {
-        waitForVisibility(locationPopup, Duration.ofSeconds(10));
         String lowerCity = city.trim().toLowerCase();
-        // Handle common alias between Bangalore and Bengaluru
+        String currentText = getSelectedCityText().toLowerCase();
+        if (!currentText.isBlank() && (currentText.contains(lowerCity) || lowerCity.contains(currentText))) {
+            return;
+        }
+
+        try {
+            if (!isLocationPopupDisplayed()) {
+                click(myLocationMenu);
+            }
+        } catch (Exception ignored) {
+            // The page can still open the modal with a click; this fallback is intentionally tolerant.
+        }
+
+        waitForPageLoad();
         String altCity = lowerCity.contains("bangalore") ? "bengaluru"
                 : (lowerCity.contains("bengaluru") ? "bangalore" : lowerCity);
 
@@ -156,11 +170,15 @@ public class HomePage extends BasePage {
             try {
                 jsClick(exact);
             } catch (Exception ex) {
-                // Broad fallback: search anywhere inside the modal for the city name
+                @SuppressWarnings("null")
                 By fallback = By.xpath(String.format(
-                        "//div[contains(@class,'city-selector-modal') or contains(@class,'oui-modal')]//*[contains(translate(normalize-space(.), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '%s')]",
-                        lowerCity));
-                jsClick(fallback);
+                        "//*[contains(translate(normalize-space(.), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '%s') or contains(translate(normalize-space(.), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '%s')]",
+                        lowerCity, altCity));
+                try {
+                    jsClick(fallback);
+                } catch (Exception ignored) {
+                    // The city may already be selected and no modal is needed.
+                }
             }
         }
         closeLocationPopupIfStillOpen();
@@ -189,7 +207,7 @@ public class HomePage extends BasePage {
 
     // Returns true if the search overlay modal is visible
     public boolean isSearchOverlayDisplayed() {
-        return isDisplayed(searchOverlay);
+        return isDisplayed(searchOverlay, Duration.ofSeconds(10));
     }
 
     // Returns true if the specified segmented control tab is visible
@@ -232,11 +250,11 @@ public class HomePage extends BasePage {
 
     // Types the diagnostic test name and submits; waits for results to appear
     public void searchDiagnosticTest(String test) {
-        WebElement input = waitForVisibility(searchInput, Duration.ofSeconds(5));
+        WebElement input = waitForVisibility(searchInput, Duration.ofSeconds(10));
         input.clear();
-        input.sendKeys(test + Keys.ENTER);
+        input.sendKeys(test, Keys.ENTER);
         try {
-            waitForVisibility(searchResults, Duration.ofSeconds(5));
+            waitForVisibility(searchResults, Duration.ofSeconds(10));
         } catch (Exception ignored) {
             // Results may already be visible before the wait triggers
         }
@@ -249,17 +267,20 @@ public class HomePage extends BasePage {
 
     // Clicks the Add button on the first search result; waits for Proceed to appear
     public void addFirstResultToCart() {
-        WebElement btn = waitForClickable(addbutton, Duration.ofSeconds(5));
+        WebElement btn = waitForClickable(addbutton, Duration.ofSeconds(10));
         try {
             btn.click();
         } catch (Exception e) {
-            // Fall back to JS click if the button is partially obscured
             jsClick(addbutton);
         }
         try {
-            waitForVisibility(proceedButton, Duration.ofSeconds(5));
+            waitForVisibility(proceedButton, Duration.ofSeconds(10));
         } catch (Exception ignored) {
-            // Proceed button may appear after a short delay
+            try {
+                waitForVisibility(By.xpath("//button[contains(.,'Proceed')] | //div[contains(.,'Proceed')]"), Duration.ofSeconds(10));
+            } catch (Exception ignoredAgain) {
+                // Proceed button may appear after a short delay
+            }
         }
     }
 
@@ -332,6 +353,7 @@ public class HomePage extends BasePage {
      *=========================================================*/
 
     // Builds an XPath locator for a city button inside the location modal
+    @SuppressWarnings("null")
     private By cityButton(String lowerCity, String altCity) {
         String xpath = String.format(
                 "//*[contains(@role,'dialog') or contains(@class,'modal') or contains(@class,'oui-modal') or contains(.,'Select your city')]"

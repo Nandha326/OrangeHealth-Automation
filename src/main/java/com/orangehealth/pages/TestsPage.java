@@ -27,7 +27,7 @@ public class TestsPage extends BasePage {
      *=========================================================*/
 
     private final By testsMenu =
-            By.xpath("//nav//a[contains(normalize-space(.),'Tests')] | //header//a[contains(normalize-space(.),'Tests')]");
+            By.xpath("//nav//a[contains(normalize-space(.),'Tests')] | //header//a[contains(normalize-space(.),'Tests')] | //a[contains(normalize-space(.),'Tests')]");
 
     /*=========================================================
      * Tests Page
@@ -40,10 +40,10 @@ public class TestsPage extends BasePage {
             By.xpath("//h2[contains(normalize-space(.),'Popular tests') or contains(normalize-space(.),'Most Booked Tests') or contains(normalize-space(.),'Lab Tests') or contains(normalize-space(.),'Popular Tests')]");
 
     private final By firstViewDetailsButton =
-            By.xpath("(//h2[contains(normalize-space(.),'Popular') or contains(normalize-space(.),'Tests') or contains(normalize-space(.),'Most Booked')]/ancestor::section//a[contains(.,'View Details')] | "
-                    + "//h2[contains(normalize-space(.),'Popular') or contains(normalize-space(.),'Tests') or contains(normalize-space(.),'Most Booked')]/following::a[contains(.,'View Details')] | "
-                    + "//a[contains(@href,'test') and contains(.,'View Details')] | "
-                    + "//a[contains(.,'View Details')])[1]");
+            By.xpath("(//h2[contains(normalize-space(.),'Popular') or contains(normalize-space(.),'Tests') or contains(normalize-space(.),'Most Booked')]/ancestor::section//a[contains(.,'View Details') or contains(.,'View details')] | "
+                    + "//h2[contains(normalize-space(.),'Popular') or contains(normalize-space(.),'Tests') or contains(normalize-space(.),'Most Booked')]/following::a[contains(.,'View Details') or contains(.,'View details')] | "
+                    + "//a[contains(@href,'test') and (contains(.,'View Details') or contains(.,'View details'))] | "
+                    + "//a[contains(.,'View Details') or contains(.,'View details')])[1]");
 
     /*=========================================================
      * Business Methods

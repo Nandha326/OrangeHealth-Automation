@@ -28,7 +28,7 @@ public class HealthCheckupPage extends BasePage {
      *=========================================================*/
 
     private final By checkupsMenu =
-            By.xpath("//nav//a[contains(normalize-space(.),'Checkups')] | //header//a[contains(normalize-space(.),'Checkups')]");
+            By.xpath("//nav//a[contains(normalize-space(.),'Checkups')] | //header//a[contains(normalize-space(.),'Checkups')] | //a[contains(normalize-space(.),'Checkups')]");
 
     /*=========================================================
      * Health Checkups Page
@@ -41,10 +41,10 @@ public class HealthCheckupPage extends BasePage {
             By.xpath("//h2[contains(normalize-space(.),'Full body') or contains(normalize-space(.),'Full Body')]");
 
     private final By firstViewDetailsButton =
-            By.xpath("(//h2[contains(normalize-space(.),'Full body') or contains(normalize-space(.),'Full Body')]/ancestor::section//a[contains(.,'View Details')] | "
-                    + "//h2[contains(normalize-space(.),'Full body') or contains(normalize-space(.),'Full Body')]/following::a[contains(.,'View Details')] | "
-                    + "//a[contains(@href,'checkup') and contains(.,'View Details')] | "
-                    + "//a[contains(.,'View Details')])[1]");
+            By.xpath("(//h2[contains(normalize-space(.),'Full body') or contains(normalize-space(.),'Full Body')]/ancestor::section//a[contains(.,'View Details') or contains(.,'View details')] | "
+                    + "//h2[contains(normalize-space(.),'Full body') or contains(normalize-space(.),'Full Body')]/following::a[contains(.,'View Details') or contains(.,'View details')] | "
+                    + "//a[contains(@href,'checkup') and (contains(.,'View Details') or contains(.,'View details'))] | "
+                    + "//a[contains(.,'View Details') or contains(.,'View details')])[1]");
 
     /*=========================================================
      * Business Methods

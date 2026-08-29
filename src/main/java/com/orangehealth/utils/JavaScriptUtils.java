@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 
 import com.orangehealth.base.DriverFactory;
 
+@SuppressWarnings("null")
 public final class JavaScriptUtils {
 
     private final WebDriver driver;
@@ -132,10 +133,10 @@ public final class JavaScriptUtils {
      */
     public boolean isPageLoaded() {
 
-        String readyState =
+        Object result =
                 js.executeScript(
-                        "return document.readyState")
-                        .toString();
+                        "return document.readyState");
+        String readyState = result != null ? result.toString() : "";
 
         return "complete".equalsIgnoreCase(
                 readyState);

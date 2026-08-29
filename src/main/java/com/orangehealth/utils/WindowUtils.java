@@ -14,6 +14,7 @@ import com.orangehealth.base.DriverFactory;
  * Provides reusable browser window and tab management
  * operations for the automation framework.
  */
+@SuppressWarnings("null")
 public final class WindowUtils {
 
     private final WebDriver driver;
@@ -80,7 +81,8 @@ public final class WindowUtils {
 
             driver.switchTo().window(handle);
 
-            if (driver.getTitle().equals(title)) {
+            String currentTitle = driver.getTitle();
+            if (currentTitle != null && currentTitle.equals(title)) {
 
                 return true;
 
@@ -102,7 +104,8 @@ public final class WindowUtils {
 
             driver.switchTo().window(handle);
 
-            if (driver.getTitle().contains(partialTitle)) {
+            String currentTitle = driver.getTitle();
+            if (currentTitle != null && currentTitle.contains(partialTitle)) {
 
                 return true;
 
@@ -124,7 +127,8 @@ public final class WindowUtils {
 
             driver.switchTo().window(handle);
 
-            if (driver.getCurrentUrl().equals(url)) {
+            String currentUrl = driver.getCurrentUrl();
+            if (currentUrl != null && currentUrl.equals(url)) {
 
                 return true;
 
@@ -146,7 +150,8 @@ public final class WindowUtils {
 
             driver.switchTo().window(handle);
 
-            if (driver.getCurrentUrl().contains(partialUrl)) {
+            String currentUrl = driver.getCurrentUrl();
+            if (currentUrl != null && currentUrl.contains(partialUrl)) {
 
                 return true;
 

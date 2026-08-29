@@ -66,6 +66,7 @@ public final class AlertUtils {
     /**
      * Send value to prompt alert.
      */
+    @SuppressWarnings("null")
     public void sendText(String text) {
 
         Alert alert = getAlert();
@@ -77,6 +78,7 @@ public final class AlertUtils {
     /**
      * Accept prompt after entering text.
      */
+    @SuppressWarnings("null")
     public void sendTextAndAccept(String text) {
 
         Alert alert = getAlert();
@@ -90,6 +92,7 @@ public final class AlertUtils {
     /**
      * Dismiss prompt after entering text.
      */
+    @SuppressWarnings("null")
     public void sendTextAndDismiss(String text) {
 
         Alert alert = getAlert();

@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import java.io.File;
 
+@SuppressWarnings("null")
 public class EdgeTest {
     public static void main(String[] args) {
         try {

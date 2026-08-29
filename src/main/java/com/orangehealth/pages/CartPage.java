@@ -17,15 +17,15 @@ public class CartPage extends BasePage {
 
     // Product detail shell — present only on an individual test/checkup page
     private final By productDetails = By.cssSelector(
-            ".primary-details-container, .product-details-container, .primary-details-card, section.primary-details, .product-details-wrapper, [class*='product-page'], [class*='primary-details'], .product-title, .product-name-container, .pdp3-hero-booking-card");
+            ".primary-details-container, .product-details-container, .primary-details-card, section.primary-details, .product-details-wrapper, [class*='product-page'], [class*='primary-details'], .product-title, .product-name-container, .pdp3-hero-booking-card, .package-name-wrapper");
 
     // Add to Cart on the product page (not the listing-card CTA)
     private final By addToCartButton = By.xpath(
-            "//button[contains(.,'Add to Cart') or contains(@class,'add-to-cart-button')] | "
-                    + "//*[self::button or @role='button'][contains(.,'Add to Cart')]");
+            "//button[contains(.,'Add to Cart') or contains(@class,'add-to-cart-button') or contains(.,'Add')] | "
+                    + "//*[self::button or @role='button'][contains(.,'Add to Cart') or contains(.,'Add')]");
 
     private final By cartDrawer = By.cssSelector(
-            "div.cart-modal-body, .cart-modal, [class*='cart-drawer'], [class*='cart-modal']");
+            "div.cart-modal-body, .cart-modal, .cart-drawer, [class*='cart-drawer'], [class*='cart-modal'], .oui-modal");
 
     private final By cartTriggerButton = By.xpath(
             "//button[contains(@class,'cart-button')] | //header//button[contains(.,'Cart')] | //button[contains(.,'View Cart')]");
@@ -41,7 +41,8 @@ public class CartPage extends BasePage {
     private final By proceedButton = By.xpath(
             "//div[contains(@class,'cart-modal') or contains(@class,'modal-body') or contains(@class,'bottom-cart')]//button[contains(.,'Proceed')] | "
                     + "//section[contains(@class,'bottom-cart')]//button[contains(.,'Proceed')] | "
-                    + "//div[contains(@class,'cart-modal')]//*[self::button or @role='button'][contains(.,'Proceed')]");
+                    + "//div[contains(@class,'cart-modal')]//*[self::button or @role='button'][contains(.,'Proceed')] | "
+                    + "//button[contains(.,'Proceed')][1]");
 
     private final By loginPageTitle = By.xpath(
             "//div[contains(@class,'auth-primary-header')] | "

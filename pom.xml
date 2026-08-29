@@ -11,7 +11,7 @@
     <properties>
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <selenium.version>4.28.0</selenium.version>
+        <selenium.version>4.47.0</selenium.version>
         <cucumber.version>7.15.0</cucumber.version>
         <testng.version>7.9.0</testng.version>
         <extentreports.version>5.1.1</extentreports.version>
