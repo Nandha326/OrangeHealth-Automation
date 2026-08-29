@@ -13,6 +13,8 @@ import com.orangehealth.base.DriverFactory;
  *
  * Provides reusable browser window and tab management
  * operations for the automation framework.
+ *
+ * @author Nandhakumar J
  */
 @SuppressWarnings("null")
 public final class WindowUtils {

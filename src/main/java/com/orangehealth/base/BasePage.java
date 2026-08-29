@@ -23,6 +23,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.orangehealth.config.ConfigManager;
 
+/**
+ * Base page providing common Selenium actions.
+ *
+ * @author Nandhakumar J
+ */
 public class BasePage {
 
     // Maximum number of retries when a StaleElementReferenceException occurs

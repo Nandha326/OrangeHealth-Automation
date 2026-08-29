@@ -15,6 +15,8 @@ import com.orangehealth.base.DriverFactory;
  *
  * Provides reusable methods for interacting with
  * HTML select elements and common custom dropdowns.
+ *
+ * @author Nandhakumar J
  */
 @SuppressWarnings("null")
 public final class DropdownUtils {

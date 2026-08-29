@@ -14,6 +14,13 @@ import org.openqa.selenium.WebElement;
 
 import com.orangehealth.base.BasePage;
 
+/**
+ * HomePage
+ *
+ * Page Object representing the Orange Health home page and its interactions.
+ *
+ * @author Nandhakumar J
+ */
 public class HomePage extends BasePage {
 
     // Short wait for quick visibility checks

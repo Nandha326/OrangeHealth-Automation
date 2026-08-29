@@ -13,6 +13,11 @@ import com.orangehealth.config.BrowserFactory;
 import com.orangehealth.config.ConfigManager;
 import com.orangehealth.config.ConfigReader;
 
+/**
+ * Factory for managing WebDriver instances per thread.
+ *
+ * @author Nandhakumar J
+ */
 @SuppressWarnings("null")
 public final class DriverFactory {
 
