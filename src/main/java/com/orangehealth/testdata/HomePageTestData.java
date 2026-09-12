@@ -38,35 +38,43 @@ public final class HomePageTestData {
     }
 
     private static Map<String, String> load() {
+        Path tmp = null;
         try {
-            InputStream input = HomePageTestData.class.getClassLoader().getResourceAsStream(CLASSPATH_FILE);
-            if (input == null) {
-                throw new IllegalStateException("Test data file not found on classpath: " + CLASSPATH_FILE);
-            }
-            Path tmp = Files.createTempFile("TestData", ".xlsx");
-            tmp.toFile().deleteOnExit();
-            Files.copy(input, tmp, StandardCopyOption.REPLACE_EXISTING);
-
-            Map<String, String> map = new LinkedHashMap<>();
-            List<List<String>> rows = ExcelUtils.readSheet(tmp, SHEET);
-
-            for (int i = 1; i < rows.size(); i++) {
-                List<String> row = rows.get(i);
-                if (row.size() < 2) continue;
-                String city = row.get(0).trim();
-                String diagnosticTest = row.get(1).trim();
-                if (!city.isEmpty() && !diagnosticTest.isEmpty()) {
-                    map.put(city, diagnosticTest);
+            try (InputStream input = HomePageTestData.class.getClassLoader().getResourceAsStream(CLASSPATH_FILE)) {
+                if (input == null) {
+                    throw new IllegalStateException("Test data file not found on classpath: " + CLASSPATH_FILE);
                 }
-            }
+                tmp = Files.createTempFile("TestData", ".xlsx");
+                Files.copy(input, tmp, StandardCopyOption.REPLACE_EXISTING);
 
-            if (map.isEmpty()) {
-                throw new IllegalStateException("No valid test data found in " + CLASSPATH_FILE + " sheet " + SHEET);
-            }
+                Map<String, String> map = new LinkedHashMap<>();
+                List<List<String>> rows = ExcelUtils.readSheet(tmp, SHEET);
 
-            return Collections.unmodifiableMap(map);
+                for (int i = 1; i < rows.size(); i++) {
+                    List<String> row = rows.get(i);
+                    if (row.size() < 2) continue;
+                    String city = row.get(0).trim();
+                    String diagnosticTest = row.get(1).trim();
+                    if (!city.isEmpty() && !diagnosticTest.isEmpty()) {
+                        map.put(city, diagnosticTest);
+                    }
+                }
+
+                if (map.isEmpty()) {
+                    throw new IllegalStateException("No valid test data found in " + CLASSPATH_FILE + " sheet " + SHEET);
+                }
+
+                return Collections.unmodifiableMap(map);
+            }
         } catch (Exception e) {
             throw new RuntimeException("Failed to load test data from " + CLASSPATH_FILE, e);
+        } finally {
+            if (tmp != null) {
+                try {
+                    Files.deleteIfExists(tmp);
+                } catch (Exception ignored) {
+                }
+            }
         }
     }
 }

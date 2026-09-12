@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="OrangeHealth Cross Browser Suite" verbose="1" parallel="none">
+<suite name="OrangeHealth Cross Browser Suite" verbose="1" parallel="tests" thread-count="2" data-provider-thread-count="2">
 
     <parameter name="crossBrowser" value="true"/>
 
@@ -8,28 +8,21 @@
         <listener class-name="com.orangehealth.reports.ExtentTestListener"/>
     </listeners>
 
-    <!-- Chrome Browser - All Modules -->
-    <test name="Chrome - All Modules">
-        <parameter name="browser" value="chrome"/>
+    <!-- Browser 1 - All Modules -->
+    <test name="Browser 1 - All Modules">
+        <parameter name="browser" value="${browser1}"/>
         <classes>
             <class name="com.orangehealth.runners.CrossBrowserTestRunner"/>
         </classes>
     </test>
 
-    <!-- Edge Browser - All Modules -->
-    <test name="Edge - All Modules">
-        <parameter name="browser" value="edge"/>
-        <classes>
-            <class name="com.orangehealth.runners.CrossBrowserTestRunner"/>
-        </classes>
-    </test>
-
-    <!-- Firefox Browser - All Modules -->
-    <test name="Firefox - All Modules">
-        <parameter name="browser" value="firefox"/>
+    <!-- Browser 2 - All Modules -->
+    <test name="Browser 2 - All Modules">
+        <parameter name="browser" value="${browser2}"/>
         <classes>
             <class name="com.orangehealth.runners.CrossBrowserTestRunner"/>
         </classes>
     </test>
 
 </suite>
+

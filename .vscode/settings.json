@@ -1,5 +1,6 @@
 {
     "java.jdt.ls.java.home": "C:\\Users\\nandh\\.jdk\\jdk-25.0.2",
-    "java.configuration.updateBuildConfiguration": "interactive",
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.compile.nullAnalysis.mode": "disabled",
+    "java.settings.url": ".settings/org.eclipse.jdt.core.prefs"
 }

@@ -2,7 +2,7 @@ package com.orangehealth.base;
 
 // Author: Nandhakumar J
 // Base class for all Page Objects.
-// Provides reusable Selenium WebDriver actions with built-in waits,
+// Provides reusable Selenium WebDriver actions with built-in explicit waits,
 // stale element retry, and JavaScript fallback support.
 
 import java.time.Duration;
@@ -36,13 +36,11 @@ public class BasePage {
     protected final WebDriver driver;
     protected final WebDriverWait wait;
     protected final Actions actions;
-
-    private final JavascriptExecutor js;
+    protected final JavascriptExecutor js;
 
     public BasePage(WebDriver driver) {
         this.driver = Objects.requireNonNull(driver, "WebDriver cannot be null.");
         // Initialise wait using explicit wait timeout from config
-        @SuppressWarnings("null")
         WebDriverWait waitInstance = new WebDriverWait(
                 driver,
                 Duration.ofSeconds(ConfigManager.getInstance().getConfigReader().getExplicitWait()));
@@ -52,58 +50,50 @@ public class BasePage {
     }
 
     // Waits until the element is visible using the default explicit wait
-    @SuppressWarnings("null")
     protected WebElement waitForVisibility(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     // Waits until the element is visible using a custom timeout
-    @SuppressWarnings("null")
     protected WebElement waitForVisibility(By locator, Duration timeout) {
         return wait(timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     // Waits until the element is present in the DOM (not necessarily visible)
-    @SuppressWarnings("null")
     protected WebElement waitForPresence(By locator) {
         return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
     // Waits until the element is clickable using the default explicit wait
-    @SuppressWarnings("null")
     protected WebElement waitForClickable(By locator) {
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
     // Waits until the element is clickable using a custom timeout
-    @SuppressWarnings("null")
     protected WebElement waitForClickable(By locator, Duration timeout) {
         return wait(timeout).until(ExpectedConditions.elementToBeClickable(locator));
     }
 
-    // Pauses execution for the specified duration
+    // Non-blocking short delay fallback when waiting for DOM animation transitions
     protected void pause(Duration duration) {
         try {
-            Thread.sleep(duration.toMillis());
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            wait(duration).until(d -> false);
+        } catch (TimeoutException ignored) {
+            // Expected timeout for explicit pause
         }
     }
 
     // Waits until the element is no longer visible using the default explicit wait
-    @SuppressWarnings("null")
     protected boolean waitForInvisibility(By locator) {
         return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
 
     // Waits until the element is no longer visible using a custom timeout
-    @SuppressWarnings("null")
     protected boolean waitForInvisibility(By locator, Duration timeout) {
         return wait(timeout).until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
 
     // Returns the first visible element matching the locator
-    @SuppressWarnings("null")
     protected WebElement waitForFirstVisible(By locator) {
         return wait.until(currentDriver -> currentDriver.findElements(locator)
                 .stream()
@@ -137,7 +127,7 @@ public class BasePage {
 
     // Clicks the element using JavaScript (bypasses overlays)
     protected void jsClick(By locator) {
-        WebElement element = waitForVisibility(locator);
+        WebElement element = waitForPresence(locator);
         scrollIntoView(element);
         js.executeScript("arguments[0].click();", element);
     }
@@ -168,7 +158,6 @@ public class BasePage {
     }
 
     // Returns the value of the specified DOM attribute
-    @SuppressWarnings("null")
     protected String getAttribute(By locator, String attribute) {
         return retryOnStale(() -> {
             String attr = waitForVisibility(locator).getDomAttribute(attribute);
@@ -177,37 +166,31 @@ public class BasePage {
     }
 
     // Selects a dropdown option by its visible text
-    @SuppressWarnings("null")
     protected void selectByVisibleText(By locator, String text) {
         new Select(waitForVisibility(locator)).selectByVisibleText(text);
     }
 
     // Selects a dropdown option by its value attribute
-    @SuppressWarnings("null")
     protected void selectByValue(By locator, String value) {
         new Select(waitForVisibility(locator)).selectByValue(value);
     }
 
     // Selects a dropdown option by its zero-based index
-    @SuppressWarnings("null")
     protected void selectByIndex(By locator, int index) {
         new Select(waitForVisibility(locator)).selectByIndex(index);
     }
 
     // Moves the mouse cursor over the element (hover)
-    @SuppressWarnings("null")
     protected void hover(By locator) {
         actions.moveToElement(waitForVisibility(locator)).perform();
     }
 
     // Performs a double-click on the element
-    @SuppressWarnings("null")
     protected void doubleClick(By locator) {
         actions.doubleClick(waitForVisibility(locator)).perform();
     }
 
     // Performs a right-click (context click) on the element
-    @SuppressWarnings("null")
     protected void rightClick(By locator) {
         actions.contextClick(waitForVisibility(locator)).perform();
     }
@@ -280,14 +263,12 @@ public class BasePage {
     }
 
     // Executes arbitrary JavaScript in the browser context
-    @SuppressWarnings("null")
     protected Object executeScript(String script, Object... arguments) {
         return js.executeScript(script, arguments);
     }
 
     // Creates a new WebDriverWait with the specified custom timeout
-    @SuppressWarnings("null")
-    private WebDriverWait wait(Duration timeout) {
+    protected WebDriverWait wait(Duration timeout) {
         return new WebDriverWait(driver, timeout);
     }
 
@@ -326,16 +307,13 @@ public class BasePage {
         if (value == null) {
             return "''";
         }
-        // No single quotes: wrap in single quotes
         if (!value.contains("'")) {
             return "'" + value + "'";
         }
-        // No double quotes: wrap in double quotes
         if (!value.contains("\"")) {
             return "\"" + value + "\"";
         }
 
-        // Contains both: use XPath concat() to combine parts
         String[] parts = value.split("'");
         StringBuilder builder = new StringBuilder("concat(");
 

@@ -11,8 +11,6 @@ import io.cucumber.java.en.When;
 
 public class TestsSteps {
 
-    private TestsPage testsPage;
-
     @When("the user clicks the Tests navigation menu")
     public void theUserClicksTheTestsNavigationMenu() {
         testsPage().clickTestsMenu();
@@ -22,7 +20,8 @@ public class TestsSteps {
     public void theTestsPageShouldBeDisplayed() {
         assertTrue(
                 testsPage().isTestsPageDisplayed(),
-                "Tests page is not displayed.");
+                "Tests page is not displayed. Current URL: "
+                        + DriverFactory.getDriver().getCurrentUrl());
     }
 
     @When("the user scrolls to the Tests section")
@@ -50,9 +49,6 @@ public class TestsSteps {
     }
 
     private TestsPage testsPage() {
-        if (testsPage == null) {
-            testsPage = new TestsPage(DriverFactory.getDriver());
-        }
-        return testsPage;
+        return new TestsPage(DriverFactory.getDriver());
     }
 }

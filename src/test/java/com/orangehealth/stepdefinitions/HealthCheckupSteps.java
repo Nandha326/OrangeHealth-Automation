@@ -11,8 +11,6 @@ import io.cucumber.java.en.When;
 
 public class HealthCheckupSteps {
 
-    private HealthCheckupPage healthCheckupPage;
-
     @When("the user clicks the Checkups navigation menu")
     public void theUserClicksTheCheckupsNavigationMenu() {
         healthCheckupPage().clickCheckupsMenu();
@@ -50,9 +48,6 @@ public class HealthCheckupSteps {
     }
 
     private HealthCheckupPage healthCheckupPage() {
-        if (healthCheckupPage == null) {
-            healthCheckupPage = new HealthCheckupPage(DriverFactory.getDriver());
-        }
-        return healthCheckupPage;
+        return new HealthCheckupPage(DriverFactory.getDriver());
     }
 }

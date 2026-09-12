@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  * Thread-safe:
  * ObjectMapper is configured once and reused.
  */
-@SuppressWarnings("null")
 public final class JsonUtils {
 
     private static final ObjectMapper OBJECT_MAPPER =

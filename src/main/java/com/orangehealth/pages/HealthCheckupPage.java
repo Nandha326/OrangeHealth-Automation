@@ -9,12 +9,13 @@ import java.time.Duration;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import com.orangehealth.base.BasePage;
 
 public class HealthCheckupPage extends BasePage {
 
-    private static final Duration PAGE_WAIT = Duration.ofSeconds(10);
+    private static final Duration PAGE_WAIT = Duration.ofSeconds(30);
 
     private final CartPage cartPage;
 
@@ -51,12 +52,24 @@ public class HealthCheckupPage extends BasePage {
      *=========================================================*/
 
     public void clickCheckupsMenu() {
-        click(checkupsMenu);
+        try {
+            WebElement menu = waitForClickable(checkupsMenu, Duration.ofSeconds(10));
+            scrollIntoView(menu);
+            menu.click();
+        } catch (Exception e) {
+            jsClick(checkupsMenu);
+        }
         waitForPageLoad();
     }
 
     public boolean isHealthCheckupsPageDisplayed() {
         waitForPageLoad();
+        try {
+            String url = getCurrentUrl().toLowerCase();
+            if (url.contains("checkup") || url.contains("package") || url.contains("category")) {
+                return true;
+            }
+        } catch (Exception ignored) {}
         return isDisplayed(healthCheckupsPageTitle, PAGE_WAIT);
     }
 

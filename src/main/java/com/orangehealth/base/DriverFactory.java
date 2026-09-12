@@ -18,7 +18,6 @@ import com.orangehealth.config.ConfigReader;
  *
  * @author Nandhakumar J
  */
-@SuppressWarnings("null")
 public final class DriverFactory {
 
     // ThreadLocal ensures each thread gets its own WebDriver instance

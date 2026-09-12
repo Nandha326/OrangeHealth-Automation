@@ -14,64 +14,68 @@ import com.orangehealth.config.ConfigManager;
 
 public final class WaitUtils {
 
-    private final WebDriver driver;
+    private final WebDriver customDriver;
     private final Duration defaultTimeout;
 
     public WaitUtils() {
-        this.driver = DriverFactory.getDriver();
+        this.customDriver = null;
         this.defaultTimeout = Duration.ofSeconds(
                 ConfigManager.getInstance().getConfigReader().getExplicitWait());
     }
 
-    @SuppressWarnings("null")
+    public WaitUtils(WebDriver driver) {
+        this.customDriver = driver;
+        this.defaultTimeout = Duration.ofSeconds(
+                ConfigManager.getInstance().getConfigReader().getExplicitWait());
+    }
+
+    private WebDriver getDriver() {
+        if (this.customDriver != null) {
+            return this.customDriver;
+        }
+        return DriverFactory.getDriver();
+    }
+
     public WebElement waitForVisibility(By locator) {
         return wait(defaultTimeout)
                 .until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    @SuppressWarnings("null")
     public WebElement waitForVisibility(By locator, Duration timeout) {
         return wait(timeout)
                 .until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    @SuppressWarnings("null")
     public WebElement waitForClickable(By locator) {
         return wait(defaultTimeout)
                 .until(ExpectedConditions.elementToBeClickable(locator));
     }
 
-    @SuppressWarnings("null")
     public WebElement waitForClickable(By locator, Duration timeout) {
         return wait(timeout)
                 .until(ExpectedConditions.elementToBeClickable(locator));
     }
 
-    @SuppressWarnings("null")
     public WebElement waitForPresence(By locator) {
         return wait(defaultTimeout)
                 .until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
-    @SuppressWarnings("null")
     public boolean waitForInvisibility(By locator) {
         return wait(defaultTimeout)
                 .until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
 
-    @SuppressWarnings("null")
     public boolean waitForInvisibility(By locator, Duration timeout) {
         return wait(timeout)
                 .until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
 
-    @SuppressWarnings("null")
     public boolean waitForTitleContains(String title) {
         return wait(defaultTimeout)
                 .until(ExpectedConditions.titleContains(title));
     }
 
-    @SuppressWarnings("null")
     public boolean waitForUrlContains(String url) {
         return wait(defaultTimeout)
                 .until(ExpectedConditions.urlContains(url));
@@ -82,14 +86,12 @@ public final class WaitUtils {
                 .until(ExpectedConditions.alertIsPresent());
     }
 
-    @SuppressWarnings("null")
     public boolean waitForSelection(By locator) {
         return wait(defaultTimeout)
                 .until(ExpectedConditions.elementToBeSelected(locator));
     }
 
-    @SuppressWarnings("null")
     private WebDriverWait wait(Duration timeout) {
-        return new WebDriverWait(driver, timeout);
+        return new WebDriverWait(getDriver(), timeout);
     }
 }

@@ -25,6 +25,10 @@ public final class ScreenshotManager {
     }
 
     public static String captureScreenshot(String screenshotName) {
+        if (!DriverFactory.isDriverInitialized()) {
+            return "";
+        }
+
         WebDriver driver = DriverFactory.getDriver();
 
         if (!(driver instanceof TakesScreenshot)) {

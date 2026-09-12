@@ -16,15 +16,23 @@ import com.orangehealth.base.DriverFactory;
  *
  * @author Nandhakumar J
  */
-@SuppressWarnings("null")
 public final class WindowUtils {
 
-    private final WebDriver driver;
+    private WebDriver driver;
 
     public WindowUtils() {
+        this.driver = null;
+    }
 
-        this.driver = DriverFactory.getDriver();
+    public WindowUtils(WebDriver driver) {
+        this.driver = driver;
+    }
 
+    private WebDriver getDriver() {
+        if (this.driver != null) {
+            return this.driver;
+        }
+        return DriverFactory.getDriver();
     }
 
     /**
@@ -32,7 +40,7 @@ public final class WindowUtils {
      */
     public String getCurrentWindowHandle() {
 
-        return driver.getWindowHandle();
+        return getDriver().getWindowHandle();
 
     }
 
@@ -41,8 +49,7 @@ public final class WindowUtils {
      */
     public Set<String> getAllWindowHandles() {
 
-        return driver.getWindowHandles();
-
+        return getDriver().getWindowHandles();
     }
 
     /**
@@ -50,7 +57,7 @@ public final class WindowUtils {
      */
     public int getWindowCount() {
 
-        return driver.getWindowHandles().size();
+        return getDriver().getWindowHandles().size();
 
     }
 
@@ -61,7 +68,7 @@ public final class WindowUtils {
     public void switchToWindow(int index) {
 
         List<String> windows =
-                new ArrayList<>(driver.getWindowHandles());
+                new ArrayList<>(getDriver().getWindowHandles());
 
         if (index < 0 || index >= windows.size()) {
 
@@ -70,7 +77,7 @@ public final class WindowUtils {
 
         }
 
-        driver.switchTo().window(windows.get(index));
+        getDriver().switchTo().window(windows.get(index));
 
     }
 
@@ -79,11 +86,11 @@ public final class WindowUtils {
      */
     public boolean switchToWindowByTitle(String title) {
 
-        for (String handle : driver.getWindowHandles()) {
+        for (String handle : getDriver().getWindowHandles()) {
 
-            driver.switchTo().window(handle);
+            getDriver().switchTo().window(handle);
 
-            String currentTitle = driver.getTitle();
+            String currentTitle = getDriver().getTitle();
             if (currentTitle != null && currentTitle.equals(title)) {
 
                 return true;
@@ -102,11 +109,11 @@ public final class WindowUtils {
     public boolean switchToWindowContainingTitle(
             String partialTitle) {
 
-        for (String handle : driver.getWindowHandles()) {
+        for (String handle : getDriver().getWindowHandles()) {
 
-            driver.switchTo().window(handle);
+            getDriver().switchTo().window(handle);
 
-            String currentTitle = driver.getTitle();
+            String currentTitle = getDriver().getTitle();
             if (currentTitle != null && currentTitle.contains(partialTitle)) {
 
                 return true;
@@ -125,11 +132,11 @@ public final class WindowUtils {
     public boolean switchToWindowByUrl(
             String url) {
 
-        for (String handle : driver.getWindowHandles()) {
+        for (String handle : getDriver().getWindowHandles()) {
 
-            driver.switchTo().window(handle);
+            getDriver().switchTo().window(handle);
 
-            String currentUrl = driver.getCurrentUrl();
+            String currentUrl = getDriver().getCurrentUrl();
             if (currentUrl != null && currentUrl.equals(url)) {
 
                 return true;
@@ -148,11 +155,11 @@ public final class WindowUtils {
     public boolean switchToWindowContainingUrl(
             String partialUrl) {
 
-        for (String handle : driver.getWindowHandles()) {
+        for (String handle : getDriver().getWindowHandles()) {
 
-            driver.switchTo().window(handle);
+            getDriver().switchTo().window(handle);
 
-            String currentUrl = driver.getCurrentUrl();
+            String currentUrl = getDriver().getCurrentUrl();
             if (currentUrl != null && currentUrl.contains(partialUrl)) {
 
                 return true;
@@ -171,7 +178,7 @@ public final class WindowUtils {
     public void switchToParentWindow(
             String parentWindowHandle) {
 
-        driver.switchTo().window(parentWindowHandle);
+        getDriver().switchTo().window(parentWindowHandle);
 
     }
 
@@ -180,7 +187,7 @@ public final class WindowUtils {
      */
     public void closeCurrentWindow() {
 
-        driver.close();
+        getDriver().close();
 
     }
 
@@ -190,19 +197,19 @@ public final class WindowUtils {
     public void closeChildWindows(
             String parentWindowHandle) {
 
-        for (String handle : driver.getWindowHandles()) {
+        for (String handle : getDriver().getWindowHandles()) {
 
             if (!handle.equals(parentWindowHandle)) {
 
-                driver.switchTo().window(handle);
+                getDriver().switchTo().window(handle);
 
-                driver.close();
+                getDriver().close();
 
             }
 
         }
 
-        driver.switchTo().window(parentWindowHandle);
+        getDriver().switchTo().window(parentWindowHandle);
 
     }
 

@@ -11,9 +11,6 @@ import io.cucumber.java.en.When;
 
 public class CommonSteps {
 
-    private CartPage cartPage;
-    private HomePage homePage;
-
     @When("the user clicks the Add to Cart button")
     public void theUserClicksTheAddToCartButton() {
         cartPage().addPackageToCart();
@@ -28,6 +25,10 @@ public class CommonSteps {
 
     @When("the user clicks the Proceed button")
     public void theUserClicksTheProceedButton() {
+        if (homePage().isSearchOverlayDisplayed()) {
+            homePage().clickProceedButton();
+            return;
+        }
         if (cartPage().isCartDrawerOpen()) {
             cartPage().clickProceed();
             return;
@@ -43,16 +44,10 @@ public class CommonSteps {
     }
 
     private CartPage cartPage() {
-        if (cartPage == null) {
-            cartPage = new CartPage(DriverFactory.getDriver());
-        }
-        return cartPage;
+        return new CartPage(DriverFactory.getDriver());
     }
 
     private HomePage homePage() {
-        if (homePage == null) {
-            homePage = new HomePage(DriverFactory.getDriver());
-        }
-        return homePage;
+        return new HomePage(DriverFactory.getDriver());
     }
 }

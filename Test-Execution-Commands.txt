@@ -57,24 +57,26 @@ mvn clean test "-Dcucumber.filter.tags=@Regression and not @HomePage"
 
 
 -----------------------------------------------------------
- Cross-Browser Testing Suite (All Modules)
+ Cross-Browser Testing Suite (All Modules - Two Browsers Simultaneously)
 -----------------------------------------------------------
 
-# Run Cross-Browser Suite (Option 1 - Profile Recommended):
+# Run Cross-Browser Suite (Default: Chrome and Firefox in parallel):
 mvn clean test -Pcrossbrowser
 
-# Run Cross-Browser Suite (Option 2 - Quoted Property for PowerShell):
-mvn clean test "-DsuiteXmlFile=testng-crossbrowser.xml"
+# Run Cross-Browser Suite (Custom browsers: e.g. Chrome and Edge in parallel):
+mvn clean test -Pcrossbrowser "-Dbrowser1=chrome" "-Dbrowser2=edge"
 
 # Run Cross-Browser Suite in Headless Mode:
 mvn clean test -Pcrossbrowser "-Dheadless=true"
 
-# Run Specific Tags across all browsers (e.g., @Smoke or @Regression):
-mvn clean test -Pcrossbrowser "-Dcucumber.filter.tags=@Smoke"
-mvn clean test -Pcrossbrowser "-Dcucumber.filter.tags=@HomePage"
+# Run Specific Tags across both browsers (e.g., @Smoke or @Regression):
+mvn clean test -Pcrossbrowser "-Dcucumber.filter.tags=@Smoke" "-Dbrowser1=chrome" "-Dbrowser2=firefox"
 
-# PowerShell Helper Script:
+# PowerShell Helper Script (Default: Chrome and Firefox):
 .\run-tests.ps1 -suiteXml "testng-crossbrowser.xml" -tags "@Smoke"
+
+# PowerShell Helper Script with custom browsers:
+.\run-tests.ps1 -suiteXml "testng-crossbrowser.xml" -browser1 chrome -browser2 edge -tags "@Smoke"
 
 
 -----------------------------------------------------------

@@ -11,12 +11,14 @@
     <properties>
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <selenium.version>4.47.0</selenium.version>
+        <selenium.version>4.28.1</selenium.version>
         <cucumber.version>7.15.0</cucumber.version>
         <testng.version>7.9.0</testng.version>
         <extentreports.version>5.1.1</extentreports.version>
         <slf4j.version>2.0.16</slf4j.version>
         <suiteXmlFile>testng.xml</suiteXmlFile>
+        <browser1>chrome</browser1>
+        <browser2>firefox</browser2>
     </properties>
 
     <dependencies>
@@ -114,6 +116,8 @@
                     </suiteXmlFiles>
                     <systemPropertyVariables>
                         <file.encoding>UTF-8</file.encoding>
+                        <browser1>${browser1}</browser1>
+                        <browser2>${browser2}</browser2>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

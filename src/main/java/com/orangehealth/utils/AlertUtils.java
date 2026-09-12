@@ -15,111 +15,89 @@ import com.orangehealth.base.DriverFactory;
  */
 public final class AlertUtils {
 
-    private final WebDriver driver;
-
+    private final WebDriver customDriver;
     private final WaitUtils waitUtils;
 
     public AlertUtils() {
-
-        this.driver = DriverFactory.getDriver();
-
+        this.customDriver = null;
         this.waitUtils = new WaitUtils();
+    }
 
+    public AlertUtils(WebDriver driver) {
+        this.customDriver = driver;
+        this.waitUtils = new WaitUtils(driver);
+    }
+
+    private WebDriver getDriver() {
+        if (this.customDriver != null) {
+            return this.customDriver;
+        }
+        return DriverFactory.getDriver();
     }
 
     /**
      * Wait and return alert.
      */
     private Alert getAlert() {
-
         return waitUtils.waitForAlert();
-
     }
 
     /**
      * Accept alert.
      */
     public void acceptAlert() {
-
         getAlert().accept();
-
     }
 
     /**
      * Dismiss alert.
      */
     public void dismissAlert() {
-
         getAlert().dismiss();
-
     }
 
     /**
      * Alert text.
      */
     public String getAlertText() {
-
         return getAlert().getText();
-
     }
 
     /**
      * Send value to prompt alert.
      */
-    @SuppressWarnings("null")
     public void sendText(String text) {
-
         Alert alert = getAlert();
-
         alert.sendKeys(text);
-
     }
 
     /**
      * Accept prompt after entering text.
      */
-    @SuppressWarnings("null")
     public void sendTextAndAccept(String text) {
-
         Alert alert = getAlert();
-
         alert.sendKeys(text);
-
         alert.accept();
-
     }
 
     /**
      * Dismiss prompt after entering text.
      */
-    @SuppressWarnings("null")
     public void sendTextAndDismiss(String text) {
-
         Alert alert = getAlert();
-
         alert.sendKeys(text);
-
         alert.dismiss();
-
     }
 
     /**
      * Check whether alert is present.
      */
     public boolean isAlertPresent() {
-
         try {
-
-            driver.switchTo().alert();
-
+            getDriver().switchTo().alert();
             return true;
-
         } catch (NoAlertPresentException e) {
-
             return false;
-
         }
-
     }
-
 }
